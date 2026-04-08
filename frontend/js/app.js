@@ -264,9 +264,11 @@ async function handleSearch(city = cityInput.value.trim(), lat = null, lon = nul
   // Show inline skeleton inside weather panel
   showSkeleton();
   
-  // Add loading state to button
+  // Add loading state to both buttons
   const searchBtn = document.getElementById("searchBtn");
+  const islandBtn = document.getElementById("islandSearchToggle");
   if (searchBtn) searchBtn.classList.add("loading");
+  if (islandBtn) islandBtn.classList.add("loading");
 
   try {
     const weatherData = await fetchWeather(city, lat, lon);
@@ -292,7 +294,9 @@ async function handleSearch(city = cityInput.value.trim(), lat = null, lon = nul
   } finally {
     // Remove loading state
     const searchBtn = document.getElementById("searchBtn");
+    const islandBtn = document.getElementById("islandSearchToggle");
     if (searchBtn) searchBtn.classList.remove("loading");
+    if (islandBtn) islandBtn.classList.remove("loading");
   }
 }
 
@@ -670,3 +674,71 @@ document.body.addEventListener("themeChanged", () => {
   }
 });
 
+
+// ─── DYNAMIC ISLAND (MOBILE) ──────────────────────────────────
+const island      = document.getElementById("dynamicIsland");
+const islandInput  = document.getElementById("islandInput");
+const islandToggle = document.getElementById("islandSearchToggle");
+const islandPredict = document.getElementById("islandPredictBtn");
+const islandSugg   = document.getElementById("islandSuggestions");
+
+function expandIsland() {
+  island.classList.add("expanded");
+  islandInput.focus();
+}
+
+function contractIsland() {
+  island.classList.remove("expanded");
+  islandInput.value = "";
+  islandSugg.innerHTML = "";
+}
+
+islandToggle?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  if (island.classList.contains("expanded")) {
+    if (islandInput.value.trim()) handleSearch(islandInput.value.trim());
+    contractIsland();
+  } else {
+    expandIsland();
+  }
+});
+
+islandPredict?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  openPredictor();
+});
+
+islandInput?.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    handleSearch(islandInput.value.trim());
+    contractIsland();
+  }
+  if (e.key === "Escape") contractIsland();
+});
+
+islandInput?.addEventListener("input", async (e) => {
+  const query = e.target.value.trim();
+  if (query.length < 2) { islandSugg.innerHTML = ""; return; }
+  
+  const results = await fetchCitySuggestions(query);
+  islandSugg.innerHTML = "";
+  results.slice(0, 5).forEach(res => {
+    const div = document.createElement("div");
+    div.className = "island-suggestion-item";
+    div.innerHTML = `<span>${res.name}</span> <span class="text-muted" style="font-size:10px;">${res.country_code?.toUpperCase() || ""}</span>`;
+    div.onclick = (e) => {
+      e.stopPropagation();
+      const fullName = [res.name, res.country].filter(Boolean).join(", ");
+      handleSearch(fullName, res.latitude, res.longitude);
+      contractIsland();
+    };
+    islandSugg.appendChild(div);
+  });
+});
+
+// Close island when clicking outside
+document.addEventListener("click", (e) => {
+  if (island && !island.contains(e.target)) {
+    contractIsland();
+  }
+});
