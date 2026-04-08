@@ -1,0 +1,69 @@
+<svg width="240" height="80" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Definitions for Gradients and Shadows -->
+  <defs>
+    <linearGradient id="sun_grad" x1="22" y1="18" x2="42" y2="38" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFD600"/>
+      <stop offset="100%" stop-color="#FF8A00"/>
+    </linearGradient>
+    
+    <linearGradient id="cloud_grad" x1="30" y1="25" x2="70" y2="65" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7DD3FC"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+
+    <linearGradient id="bar1_grad" x1="38" y1="62" x2="38" y2="72" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#67E8F9"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+    
+    <linearGradient id="bar2_grad" x1="46" y1="64" x2="46" y2="76" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FDE047"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+    
+    <linearGradient id="bar3_grad" x1="54" y1="62" x2="54" y2="74" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Logo Icon -->
+  <g id="logo_icon">
+    <!-- Perfectly Even 8-Point Sun Spikes (28y deep tuck) -->
+    <path d="M35 15L38.5 22.5L46 19L42.5 26.5L50 30L42.5 33.5L46 41L38.5 37.5L35 45L31.5 37.5L24 41L27.5 33.5L20 30L27.5 26.5L24 19L31.5 22.5L35 15Z" fill="url(#sun_grad)" opacity="0.9" />
+    <circle cx="35" cy="28" r="7" fill="url(#sun_grad)" />
+
+    <!-- Main Cloud Body -->
+    <path d="M72 45C72 52.1797 66.1797 58 59 58H33C27.4772 58 23 53.5228 23 48C23 43.149 26.4443 39.1023 31.0503 38.1633C32.1469 31.8488 37.6625 27 44.25 27C50.2312 27 55.3377 30.9855 57 36.4952C58.261 35.5398 59.8152 35 61.5 35C65.6421 35 69 38.3579 69 42.5C69 43.3761 68.8497 44.2171 68.5744 45H72Z" fill="url(#cloud_grad)" />
+    
+    <!-- Intelligence/Node Pattern inside Cloud -->
+    <g opacity="0.6">
+      <circle cx="44" cy="38" r="1.5" fill="white" />
+      <circle cx="56" cy="44" r="1.5" fill="white" />
+      <circle cx="48" cy="50" r="1.5" fill="white" />
+      <circle cx="36" cy="46" r="1.5" fill="white" />
+      <line x1="44" y1="38" x2="56" y2="44" stroke="white" stroke-width="0.5" />
+      <line x1="56" y1="44" x2="48" y2="50" stroke="white" stroke-width="0.5" />
+      <line x1="48" y1="50" x2="36" y2="46" stroke="white" stroke-width="0.5" />
+      <line x1="36" y1="46" x2="44" y2="38" stroke="white" stroke-width="0.5" />
+    </g>
+
+    <!-- Dynamic Bars (Rain/Data) -->
+    <rect x="36" y="62" width="4" height="10" rx="2" fill="url(#bar1_grad)" />
+    <rect x="44" y="64" width="4" height="12" rx="2" fill="url(#bar2_grad)" />
+    <rect x="52" y="62" width="4" height="12" rx="2" fill="url(#bar3_grad)" />
+  </g>
+
+  <!-- Text Section -->
+  <g id="logo_text">
+    <text x="85" y="48" font-family="'DM Sans', sans-serif" font-weight="700" font-size="32" letter-spacing="-0.5">
+      <tspan fill="currentColor" class="text-primary">Atmos</tspan><tspan fill="#3B82F6">Intel</tspan>
+    </text>
+    <text x="85" y="66" font-family="'DM Sans', sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="#94A3B8" opacity="0.9">PRECISION WEATHER DATA</text>
+  </g>
+</svg>

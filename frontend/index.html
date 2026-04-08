@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AtmosIntel | Global Weather Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Syne:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+
+  <div id="vanta-canvas"></div>
+  <div class="stars-layer" id="starsLayer"></div>
+  <div class="celestial-body" id="celestialBody"></div>
+  <div class="aurora"></div>
+
+  <!-- Dynamic Weather Layers -->
+  <div class="weather-layer rain" id="rainLayer"></div>
+  <div class="weather-layer snow" id="snowLayer"></div>
+  <div class="weather-layer fog" id="fogLayer"></div>
+  <div class="weather-layer lightning" id="lightningLayer"></div>
+  <div class="weather-layer sun-rays" id="sunRaysLayer"></div>
+  <div class="weather-bg-overlay" id="weatherBgOverlay"></div>
+
+  <div class="container">
+    <div class="brand-container" id="mainBrand">
+      <svg class="brand-logo" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sun_grad" x1="22" y1="18" x2="42" y2="38" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#FFD600"/>
+            <stop offset="100%" stop-color="#FF8A00"/>
+          </linearGradient>
+          <linearGradient id="cloud_grad" x1="30" y1="25" x2="70" y2="65" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#7DD3FC"/>
+            <stop offset="100%" stop-color="#0284C7"/>
+          </linearGradient>
+          <linearGradient id="bar1_grad" x1="38" y1="62" x2="38" y2="72" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#67E8F9"/>
+            <stop offset="100%" stop-color="#06B6D4"/>
+          </linearGradient>
+          <linearGradient id="bar2_grad" x1="46" y1="64" x2="46" y2="76" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#FDE047"/>
+            <stop offset="100%" stop-color="#F59E0B"/>
+          </linearGradient>
+          <linearGradient id="bar3_grad" x1="54" y1="62" x2="54" y2="74" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#60A5FA"/>
+            <stop offset="100%" stop-color="#2563EB"/>
+          </linearGradient>
+        </defs>
+        <g id="logo_icon">
+          <path d="M35 15L38.5 22.5L46 19L42.5 26.5L50 30L42.5 33.5L46 41L38.5 37.5L35 45L31.5 37.5L24 41L27.5 33.5L20 30L27.5 26.5L24 19L31.5 22.5L35 15Z" fill="url(#sun_grad)" opacity="0.9" />
+          <circle cx="35" cy="28" r="7" fill="url(#sun_grad)" />
+          <path d="M72 45C72 52.1797 66.1797 58 59 58H33C27.4772 58 23 53.5228 23 48C23 43.149 26.4443 39.1023 31.0503 38.1633C32.1469 31.8488 37.6625 27 44.25 27C50.2312 27 55.3377 30.9855 57 36.4952C58.261 35.5398 59.8152 35 61.5 35C65.6421 35 69 38.3579 69 42.5C69 43.3761 68.8497 44.2171 68.5744 45H72Z" fill="url(#cloud_grad)" />
+          <g opacity="0.6">
+            <circle cx="44" cy="38" r="1.5" fill="white" />
+            <circle cx="56" cy="44" r="1.5" fill="white" />
+            <circle cx="48" cy="50" r="1.5" fill="white" />
+            <circle cx="36" cy="46" r="1.5" fill="white" />
+            <line x1="44" y1="38" x2="56" y2="44" stroke="white" stroke-width="0.5" />
+            <line x1="56" y1="44" x2="48" y2="50" stroke="white" stroke-width="0.5" />
+            <line x1="48" y1="50" x2="36" y2="46" stroke="white" stroke-width="0.5" />
+            <line x1="36" y1="46" x2="44" y2="38" stroke="white" stroke-width="0.5" />
+          </g>
+          <rect x="36" y="62" width="4" height="10" rx="2" fill="url(#bar1_grad)" />
+          <rect x="44" y="64" width="4" height="12" rx="2" fill="url(#bar2_grad)" />
+          <rect x="52" y="62" width="4" height="12" rx="2" fill="url(#bar3_grad)" />
+        </g>
+        <g id="logo_text">
+          <text x="85" y="48" font-family="'DM Sans', sans-serif" font-weight="700" font-size="32" letter-spacing="-0.5">
+            <tspan fill="currentColor">Atmos</tspan><tspan fill="#3B82F6">Intel</tspan>
+          </text>
+          <text x="85" y="66" font-family="'DM Sans', sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="#94A3B8" opacity="0.9">PRECISION WEATHER DATA</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Search -->
+    <div class="search-box">
+      <div class="search-input-group">
+        <input type="text" id="cityInput" placeholder="Enter city name" autocomplete="off" />
+        <div class="input-brackets"></div>
+        <div id="suggestionsContainer" class="suggestions-container"></div>
+      </div>
+      <button id="searchBtn" title="Search">
+        <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M20 20L16.5 16.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="11" cy="11" r="9" stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 2" class="search-outer-ring"/>
+        </svg>
+      </button>
+      <button id="openPredictorBtn" class="predict-btn" title="Predict Future Weather">
+        <svg class="predictor-icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 3" class="scanner-ring"/>
+          <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="12" cy="12" r="2" fill="currentColor" class="pulse-core"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Unit toggle -->
+    <div class="unit-toggle">
+      <span>°C</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="unitToggle" />
+        <span class="slider"></span>
+      </label>
+      <span>°F</span>
+    </div>
+
+    <!-- Search history chips -->
+    <div class="history-section" id="historySection" style="display:none;">
+      <p class="history-label">Recent searches</p>
+      <div class="history-chips" id="historyChips"></div>
+    </div>
+
+    <!-- ── DASHBOARD ── -->
+    <div class="dashboard" id="dashboard">
+
+      <!-- Left: main weather panel -->
+      <div class="dash-main">
+        <!-- Hidden by default — shown only when no data loaded -->
+        <div class="dash-empty-main hidden" id="dashEmptyMain" style="display:none;">
+          <span class="dash-empty-icon">🔍</span>
+          <p class="dash-empty-title">Search a city to get started</p>
+          <p class="dash-empty-sub">Type a city name above and press Search</p>
+        </div>
+        <!-- Weather panel — populated by renderWeather() -->
+        <div id="weatherResult" class="weather-panel hidden" style="display:none;"></div>
+      </div>
+
+      <!-- Right: bookmarks sidebar -->
+      <div class="dash-sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-header-row1">
+            <span class="sidebar-title">Bookmarks</span>
+            <span class="sidebar-count" id="sidebarCount">0</span>
+          </div>
+          <div class="sort-btns">
+            <button class="sort-btn active" onclick="window.__sortBookmarks('recent', this)">Recent</button>
+            <button class="sort-btn"        onclick="window.__sortBookmarks('name',   this)">Name</button>
+            <button class="sort-btn"        onclick="window.__sortBookmarks('temp',   this)">Temp</button>
+          </div>
+        </div>
+
+        <div class="bookmarks-list" id="bookmarksList"></div>
+
+        <div class="bookmarks-empty" id="bookmarksEmpty">
+          <span class="bookmarks-empty-icon">🔖</span>
+          <p class="bookmarks-empty-title">No bookmarks yet</p>
+          <p class="bookmarks-empty-sub">Search a city and tap <strong>☆ Bookmark</strong> to save it here</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="bookmarkToast"></div>
+
+  <!-- Detail modal -->
+  <div class="modal-overlay" id="weatherModalOverlay"></div>
+  <div class="modal-panel" id="weatherModalPanel">
+    <button class="modal-close" id="modalCloseBtn" aria-label="Close">✕</button>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+
+  <!-- Predictor modal -->
+  <div class="modal-overlay" id="predictorModalOverlay"></div>
+  <div class="modal-panel predictor-panel" id="predictorModalPanel">
+    <button class="modal-close" id="predictorCloseBtn" aria-label="Close">✕</button>
+    <div class="modal-body">
+       <div class="predictor-hero">
+         <div class="predictor-title-row">
+           <svg class="predictor-icon-svg modal-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+             <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 3" class="scanner-ring"/>
+             <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.8"/>
+             <circle cx="12" cy="12" r="2" fill="currentColor" class="pulse-core"/>
+           </svg>
+           <h2>AtmosIntel Prediction Engine</h2>
+         </div>
+         <p>Select a future target date. The engine calculates a prediction using 10 years of Open-Meteo archive data.</p>
+         <div class="predictor-inputs">
+            <input type="text" id="predictCity" placeholder="City (e.g. Paris)" />
+            <input type="date" id="predictDate" />
+            <button id="runPredictionBtn">Predict</button>
+         </div>
+       </div>
+       <div id="predictorLoading" style="display:none; text-align:center; padding:30px;">
+           <div class="skel-pill" style="margin:0 auto 10px;width:120px;"></div>
+           <p style="color:#a5adc6;font-size:14px;">Analyzing 10-year historical trends...</p>
+       </div>
+       <div id="predictorResults" style="display:none; margin-top:20px;">
+          <!-- Fetched stats go here -->
+       </div>
+    </div>
+  </div>
+
+
+
+  <!-- Planetary View Trigger -->
+  <button id="planetViewTrigger" class="planet-trigger" title="Global Planetary View">
+    <span class="planet-icon">🌍</span>
+    <span class="planet-label">Planet View</span>
+  </button>
+
+  <!-- Planetary View Overlay -->
+  <div id="planetaryView" class="planetary-overlay">
+
+    <!-- Sci-fi corner brackets -->
+    <div class="hud-corner hud-corner-tl"></div>
+    <div class="hud-corner hud-corner-tr"></div>
+    <div class="hud-corner hud-corner-bl"></div>
+    <div class="hud-corner hud-corner-br"></div>
+
+    <!-- Globe canvas -->
+    <div id="globeContainer"></div>
+
+    <!-- Loading Indicator -->
+    <div class="globe-loading" id="globeLoading">
+      <div class="globe-spinner"></div>
+      <div class="globe-loading-text">Initializing Orbital Scan...</div>
+    </div>
+
+    <!-- HUD overlay -->
+    <div class="planetary-hud">
+
+      <!-- Top-left: Title + live stats -->
+      <div class="hud-title-panel">
+        <div class="hud-eyebrow">
+          <span class="hud-eyebrow-dot"></span>
+          <span>Live Atmospheric Scan</span>
+        </div>
+        <h2 class="hud-title">Planetary Overview</h2>
+        <p class="hud-subtitle">Global Weather Intelligence</p>
+        <div class="hud-stats-row">
+          <div class="hud-stat">
+            <span class="hud-stat-val" id="hudCityCount">—</span>
+            <span class="hud-stat-label">Cities</span>
+          </div>
+          <div class="hud-stat">
+            <span class="hud-stat-val" id="hudAvgTemp">—</span>
+            <span class="hud-stat-label">Avg Temp</span>
+          </div>
+          <div class="hud-stat">
+            <span class="hud-stat-val hud-live-badge">LIVE</span>
+            <span class="hud-stat-label">Feed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top-right: Close + live coordinates -->
+      <div class="hud-controls-panel">
+        <button id="closePlanetBtn" class="hud-close-btn">✕ Exit View</button>
+        <div class="hud-coords" id="hudCoords">LAT 0.00° N  ·  LON 0.00° E</div>
+      </div>
+
+      <!-- Bottom: scrollable city strip -->
+      <div class="hud-bottom-strip-wrap">
+        <div class="hud-bottom-strip" id="hudCityStrip"></div>
+      </div>
+
+    </div>
+
+    <!-- Selected city detail panel (slides in from right) -->
+    <div class="hud-city-detail" id="hudCityDetail">
+      <button class="detail-close" id="detailCloseBtn">✕</button>
+      <div class="detail-city-name" id="detailCityName">—</div>
+      <div class="detail-condition" id="detailCondition">—</div>
+      <div class="detail-temp-big" id="detailTemp">—</div>
+      <div class="detail-grid">
+        <div class="detail-stat">
+          <div class="detail-stat-label">Humidity</div>
+          <div class="detail-stat-val" id="detailHumidity">—</div>
+        </div>
+        <div class="detail-stat">
+          <div class="detail-stat-label">Wind</div>
+          <div class="detail-stat-val" id="detailWind">—</div>
+        </div>
+        <div class="detail-stat">
+          <div class="detail-stat-label">High</div>
+          <div class="detail-stat-val" id="detailHigh">—</div>
+        </div>
+        <div class="detail-stat">
+          <div class="detail-stat-label">Low</div>
+          <div class="detail-stat-val" id="detailLow">—</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Chart.js for sparklines -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  
+  <!-- 3D Globe Dependencies -->
+  <script src="https://unpkg.com/three@0.150.4"></script>
+  <script src="https://unpkg.com/globe.gl"></script>
+
+  <!-- Vanta Background Dependencies (Three r134) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.clouds.min.js"></script>
+  
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
