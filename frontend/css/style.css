@@ -4592,7 +4592,9 @@ body.weather-bg-rainy .cloud {
 
   .dynamic-island.expanded {
     min-width: 280px !important;
+    height: auto !important;
     background: rgba(8, 16, 40, 0.98) !important;
+    padding-bottom: 12px !important;
   }
 
   .island-pill-view {
