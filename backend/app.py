@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import requests
 import urllib.parse
+import time
 
 app = Flask(__name__, static_folder='../frontend', static_url_path='')
 CORS(app)
@@ -12,7 +13,6 @@ CORS(app)
 # Database and Predictor Initialization
 from database import init_db
 from predictor import WeatherPredictor
-import time
 
 init_db(app)
 predictor = WeatherPredictor(app)
@@ -100,10 +100,6 @@ def map_weather_code_to_condition(code):
 def index():
     return send_from_directory('../frontend', 'index.html')
 
-@app.route('/<path:path>')
-def serve_static(path):
-    return send_from_directory('../frontend', path)
-
 @app.route('/api/weather', methods=['GET'])
 def get_weather():
     city = request.args.get('city')
@@ -171,65 +167,34 @@ def get_weather():
                "&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max"
                "&timezone=auto")
         
-        # Optimized fetch with lower timeout for faster user feedback
         for attempt in range(2):
             try:
                 resp = requests.get(url, timeout=6)
                 if resp.status_code == 200:
                     return resp.json()
                 elif resp.status_code == 429:
-                    print(f"[API] ⚠️ Rate limit hit (429) on attempt {attempt+1}")
-                    # Don't trip the circuit breaker for 429, just wait a bit if it's the first attempt
                     if attempt == 0:
                         time.sleep(1)
                         continue
                     raise Exception("Rate limit hit")
                 else:
-                    print(f"[API] ❌ Primary service returned {resp.status_code}: {resp.text[:100]}")
                     resp.raise_for_status()
-
             except Exception as e:
-                print(f"[API] Forecast attempt {attempt+1} failed: {e}")
                 if attempt == 1:
-                    # Trip the circuit breaker only for connection/server issues, not rate limits
                     if "429" not in str(e):
-                        print(f"[CIRCUIT] Tripping circuit breaker due to persistent failure.")
                         SERVICE_STATUS["open_meteo_down"] = True
                         SERVICE_STATUS["last_check_time"] = time.time()
                     raise e
-        raise Exception("Failed to fetch forecast from primary source")
+        raise Exception("Failed to fetch forecast")
 
     try:
         weather_data = fetch_forecast(latitude, longitude)
-        if not weather_data:
-            raise Exception("No data from primary")
     except Exception as err:
-        print(f"⚠️ Forecast by coords failed, falling back to name search for: \"{city}\"")
-        try:
-            # Fallback geocoding also needs timeout
-            geo_fallback_url = f"https://geocoding-api.open-meteo.com/v1/search?name={urllib.parse.quote(city)}&count=1"
-            geo_fallback_resp = requests.get(geo_fallback_url, timeout=10)
-            fallback_geo = geo_fallback_resp.json()
-            
-            if not fallback_geo.get('results'):
-                raise Exception("Geocoding failed")
-                
-            f_lat = fallback_geo['results'][0]['latitude']
-            f_lon = fallback_geo['results'][0]['longitude']
-            f_name = fallback_geo['results'][0]['name']
-            
-            weather_data = fetch_forecast(f_lat, f_lon)
-            if not weather_data:
-                raise Exception("Fallback fetch returned no data")
-            name = f_name
-        except Exception as fallback_err:
-            print(f"⚠️ Open-Meteo fallback failed, trying alternative provider (wttr.in)...")
-            resilient_data = fetch_from_wttr(city)
-            if resilient_data:
-                return jsonify(resilient_data)
-                
-            print(f"❌ All providers failed: {fallback_err}")
-            return jsonify({"error": "Weather service is currently unresponsive. Please try again in a few moments."}), 503
+        print(f"⚠️ Primary source failed, trying wttr.in...")
+        resilient_data = fetch_from_wttr(city)
+        if resilient_data:
+            return jsonify(resilient_data)
+        return jsonify({"error": "Weather service is currently unresponsive."}), 503
 
     hourly_data = []
     current_time_str = weather_data['current']['time']
@@ -301,7 +266,6 @@ def get_predict():
         return jsonify({"error": "Parameters city, month, day are required"}), 400
         
     try:
-        # Step 1: Geocode city if lat/lon not provided or to ensure we have a clean name
         geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={urllib.parse.quote(city)}&count=1"
         geo_resp = requests.get(geo_url)
         geo_resp.raise_for_status()
@@ -315,22 +279,11 @@ def get_predict():
         longitude = res['longitude']
         city_name = res['name']
         
-        # Step 2: Ensure historical data is synced (local database)
-        # This will fetch 10 years of data if not already present
         predictor.sync_city_history(city_name, latitude, longitude)
-        
-        # Step 3: Run prediction using the local database
         prediction = predictor.predict_weather(city_name, month, day)
         
         if not prediction:
-            # Check if we have ANY records for this city
-            from models import City, DailyWeather
-            c = City.query.filter_by(name=city_name).first()
-            count = DailyWeather.query.filter_by(city_id=c.id).count() if c else 0
-            
-            if count == 0:
-                return jsonify({"error": f"Still syncing historical data for {city_name}. Please wait 10 seconds and try again."}), 503
-            return jsonify({"error": "Not enough historical data to generate a reliable prediction."}), 404
+            return jsonify({"error": "Not enough historical data."}), 404
             
         return jsonify({
             "city": city_name,
@@ -344,7 +297,6 @@ def get_predict():
             "trendSlope": prediction.get('trendSlope', 0),
             "historicalData": prediction.get('historicalData', [])
         })
-        
     except Exception as e:
         print("Predictor engine failed:", e)
         return jsonify({"error": "Failed to generate prediction"}), 500
@@ -354,34 +306,24 @@ def validate_cities():
     try:
         data = request.get_json()
         locations = data.get('locations')
-        if not locations or not isinstance(locations, list) or len(locations) == 0:
-            return jsonify({"validations": []})
-            
+        if not locations: return jsonify({"validations": []})
         lats = ",".join([str(l.get('lat')) for l in locations])
         lons = ",".join([str(l.get('lon')) for l in locations])
-        
         url = f"https://api.open-meteo.com/v1/forecast?latitude={lats}&longitude={lons}&current_weather=true"
         response = requests.get(url, timeout=15)
-        
-        if not response.ok:
-            return jsonify({"validations": [True] * len(locations)})
-            
+        if not response.ok: return jsonify({"validations": [True] * len(locations)})
         resp_data = response.json()
         results = resp_data if isinstance(resp_data, list) else [resp_data]
-        
         validations = [not r.get('error') for r in results]
-        
-        if len(validations) < len(locations):
-            validations.extend([True] * (len(locations) - len(validations)))
-            
         return jsonify({"validations": validations})
     except Exception as e:
         print("Validation failed:", e)
-        return jsonify({"error": "Validation failed due to service timeout."}), 504
+        return jsonify({"error": "Validation failed"}), 504
+
+@app.route('/<path:path>')
+def serve_static(path):
+    return send_from_directory('../frontend', path)
 
 if __name__ == '__main__':
-    # Use PORT env var for Render/Heroku, default to 5000 for local dev
     port = int(os.environ.get('PORT', 5000))
-    # Standard production practice: debug=False if on assigned port
-    is_prod = 'PORT' in os.environ
-    app.run(host='0.0.0.0', port=port, debug=not is_prod, threaded=True)
+    app.run(host='0.0.0.0', port=port, debug=True, threaded=True)

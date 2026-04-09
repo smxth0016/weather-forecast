@@ -4178,37 +4178,133 @@ body.weather-bg-rainy .cloud {
   justify-content: space-between;
 }
 
+/* ── CORE LAYOUT RESTORATION (Precision Desktop Fix) ── */
+.atmos-app-container {
+  width: 100%;
+  padding: 0 20px;
+  margin: 0 auto;
+  text-align: center;
+  max-width: 1400px;
+  position: relative;
+  z-index: 10;
+}
+
+@media (min-width: 992px) {
+  .dashboard {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    margin-top: 40px;
+    padding: 0 30px;
+    animation: fadeIn 0.8s ease-out;
+  }
+  
+  .dash-main {
+    flex: 0 0 760px;
+    text-align: left;
+  }
+  
+  .dash-sidebar {
+    flex: 0 0 380px;
+    text-align: left;
+    margin-top: 30px;
+  }
+}
+
+/* ── MOBILE RESPONSIVENESS & DYNAMIC ISLAND ── */
+
+/* Smooth body scroll for mobile */
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto !important;
+    overflow-x: hidden;
+  }
+}
+
+/* -- DYNAMIC ISLAND CONTAINER -- */
+.dynamic-island-container {
+  position: fixed;
+  top: env(safe-area-inset-top, 20px);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10000;
+  pointer-events: none;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.dynamic-island {
+  pointer-events: auto;
+  background: rgba(4, 8, 20, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 40px;
+  min-width: 140px;
+  height: 44px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  backface-visibility: hidden;
+  perspective: 1000;
+}
+
+.dynamic-island.expanded {
+  width: 90vw;
+  max-width: 400px;
+  height: auto;
+  min-height: 56px;
+  border-radius: 28px;
+  background: rgba(6, 10, 28, 0.95);
+}
+
+.island-pill-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  height: 44px;
+  width: 100%;
+}
+
+.dynamic-island.expanded .island-pill-view {
+  padding: 0 16px;
+  height: 52px;
+}
+
 /* ── GRID & LAYOUT REFINEMENTS ── */
 
 @media (max-width: 991px) {
   .brand-container {
-    margin-top: 60px; /* Leave space for Island */
+    margin-top: 60px;
   }
   
   .dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 0 20px;
     margin-top: 20px;
-  }
-  
-  .dash-sidebar {
-    order: 2; /* Sidebar after main on mobile */
   }
   
   .dash-main {
     order: 1;
+    width: 100%;
+  }
+  
+  .dash-sidebar {
+    order: 2;
+    width: 100%;
   }
 }
 
-/* Shrink headers on small mobile */
 @media (max-width: 480px) {
-  .brand-logo {
-    width: 200px;
-  }
-  
-  .weather-card h2 {
-    font-size: 1.3rem;
-  }
-  
-  .detail-temp-big {
-    font-size: 56px;
-  }
+  .brand-logo { width: 200px; }
+  .weather-card h2 { font-size: 1.3rem; }
+  .detail-temp-big { font-size: 56px; }
 }
