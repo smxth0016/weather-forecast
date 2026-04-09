@@ -3831,271 +3831,205 @@ body.weather-bg-rainy .cloud {
   padding: 30px;
   z-index: 2005;
   box-shadow: -10px 20px 40px rgba(0, 0, 0, 0.5);
-  transition: right 0.5s c/* -- PREDICTOR BUTTON (Industry Grade / Scanner) -- */
-.predict-btn {
-  position: relative;
-  width: 46px;
-  height: 46px;
+  transition: right 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: auto;
+}
+
+.hud-city-detail.visible {
+  right: 50px;
+}
+
+.detail-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1.2px solid rgba(255, 255, 255, 0.12);
+  width: 30px;
+  height: 30px;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  overflow: visible;
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  backdrop-filter: blur(12px);
-  padding: 0;
-  box-shadow: none;
+  font-size: 14px;
+  line-height: 1;
 }
 
-.day-theme .predict-btn {
-  background: rgba(255, 255, 255, 0.45);
-  border-color: rgba(3, 105, 161, 0.2);
+.detail-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
 }
 
-.predict-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--accent-primary);
-  transform: translateY(-1px);
+.detail-city-name {
+  font-family: "Syne", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
 }
 
-/* Scanner Eye */
-.scanner-eye {
+.detail-condition {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 20px;
+}
+
+.detail-temp-big {
+  font-family: "Syne", sans-serif;
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 30px;
+  letter-spacing: -3px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.detail-stat {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.detail-stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.detail-stat-val {
+  font-family: "Syne", sans-serif;
   font-size: 18px;
-  color: var(--accent-primary);
-  z-index: 2;
-  transition: all 0.4s ease;
-  filter: drop-shadow(0 0 4px var(--accent-primary));
+  font-weight: 600;
+  color: #fff;
 }
 
-.day-theme .scanner-eye {
-  color: #4338ca;
-  filter: none;
-}
-
-.predict-btn:hover .scanner-eye {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 8px var(--accent-primary));
-}
-
-/* Scanner Outer Ring */
-.scanner-ring {
-  position: absolute;
-  inset: -4px;
-  border: 1px solid var(--accent-primary);
-  border-radius: 50%;
-  opacity: 0.15;
-  transition: all 0.5s ease;
-}
-
-.predict-btn:hover .scanner-ring {
-  opacity: 0.8;
-  inset: -10px;
-  animation: scan-rotate 4s linear infinite;
-  border-style: dashed;
-}
-
-@keyframes scan-rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@media (min-width: 992px) {
-  .dashboard {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 40px;
-    margin-top: 40px;
-    padding: 0 30px;
-  }
-}
-
-/* ── ATMOSINTEL MOBILE UI (Strict Isolation) ── */
+/* -- Responsive Globe Overlay -- */
 @media (max-width: 768px) {
-  body { overflow-y: auto !important; overflow-x: hidden; }
-
-  /* -- DYNAMIC ISLAND GLASSMORPHISM -- */
-  .dynamic-island-container {
-    position: fixed;
-    top: env(safe-area-inset-top, 20px);
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    z-index: 10000;
-    pointer-events: none;
-    transform: translateZ(0);
-  }
-
-  .dynamic-island {
-    pointer-events: auto;
-    min-width: 140px !important;
-    height: 48px !important;
-    background: var(--card-bg) !important;
-    backdrop-filter: blur(24px) saturate(200%) !important;
-    -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
-    border: 1px solid var(--card-border) !important;
-    box-shadow: var(--card-shadow) !important;
-    border-radius: 40px;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    overflow: hidden;
-  }
-
-  .dynamic-island.expanded {
-    min-width: 280px !important;
-    height: auto !important;
-    background: var(--card-bg-solid) !important;
-    padding-bottom: 12px !important;
-    border-radius: 28px !important;
-  }
-
-  .island-pill-view {
-    height: 48px !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding: 0 !important;
-  }
-
-  .island-search-group {
-    flex: 1 !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 0 !important;
-  }
-
-  .dynamic-island.expanded .island-search-group {
-    justify-content: flex-start !important;
-    gap: 12px !important;
-    padding-left: 16px !important;
-  }
-
-  .island-predict-group {
-    flex: 1 !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-
-  .dynamic-island.expanded .island-predict-group {
-    flex: 0 0 auto !important;
-    padding-right: 12px !important;
-  }
-
-  .island-input-field {
-    background: var(--input-bg) !important;
-    border: 1px solid var(--input-border) !important;
-    border-radius: 12px !important;
-    padding: 0 12px 0 38px !important;
-    font-size: 16px !important;
-    color: var(--text-bright) !important;
-    max-width: 170px !important;
-    width: 0; opacity: 0; transition: all 0.4s ease;
-  }
-
-  .dynamic-island.expanded .island-input-field {
-    width: 100%; opacity: 1;
-  }
-
-  .island-icon-btn {
-    width: 40px !important;
-    height: 40px !important;
-    min-width: 40px !important;
-    border-radius: 50% !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    background: transparent !important;
-    color: var(--text-dim) !important;
-    border: none !important;
-    transition: all 0.2s ease !important;
-  }
-
-  .island-icon-btn:active {
-    background: rgba(125, 211, 252, 0.1) !important;
-    transform: scale(0.95);
-  }
-
-  .island-divider {
-    margin: 0 !important;
-    height: 18px !important;
-    width: 1px !important;
-    background: var(--card-border) !important;
-    opacity: 0.15 !important;
-  }
-
-  /* -- ROBUST SUGGESTION FIX -- */
-  .island-suggestions {
-    display: none;
-    background: transparent !important;
-    border-top: 1px solid var(--card-border) !important;
-    margin-top: 8px;
-    padding: 8px 0 !important;
-  }
-
-  .island-suggestions.has-results {
-    display: block;
-  }
-
-  .island-suggestion-item {
-    padding: 14px 20px !important;
-    border-bottom: 1px solid var(--card-border) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 4px !important;
-    background: transparent !important;
-    color: var(--text-main) !important;
-  }
-
-  /* -- GLOBE MINI-ISLAND -- */
-  .mini-island {
-    width: 48px !important;
-    height: 48px !important;
-    border-radius: 24px !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    background: var(--card-bg) !important;
-    backdrop-filter: blur(24px) saturate(200%) !important;
-    border: 1px solid var(--card-border) !important;
-    box-shadow: var(--card-shadow) !important;
-  }
-
   .planet-trigger {
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    position: static !important;
+    right: 90px;
+    padding: 0 16px;
   }
-
-  .planet-icon { font-size: 1.4rem; margin: 0 !important; }
-  .planet-label { display: none !important; }
-
-  /* -- AUTO-HIDE HUD IN GLOBE VIEW -- */
-  body.globe-view-active .dynamic-island-container {
-    opacity: 0;
-    pointer-events: none;
-    transform: translate3d(0, -30px, 0);
-    transition: all 0.5s ease;
+  .planet-label {
+    display: none;
   }
-
-  /* -- MOBILE INSTRUMENT FIXES -- */
-  .wp-instruments { flex-direction: column !important; gap: 12px !important; padding: 0 20px 20px !important; }
-  .wp-instrument-card { width: 100% !important; padding: 12px 16px !important; border-radius: 16px !important; background: var(--card-bg) !important; border: 1px solid var(--card-border) !important; }
+  .planetary-hud {
+    inset: 20px;
+  }
+  .hud-title-panel {
+    min-width: auto;
+    width: 100%;
+    padding: 15px;
+  }
+  .hud-title {
+    font-size: 18px;
+  }
+  .hud-stats-row {
+    gap: 10px;
+  }
+  .hud-controls-panel {
+    top: 130px;
+    right: 0;
+    padding: 12px;
+  }
+  .hud-city-detail.visible {
+    right: 20px;
+    left: 20px;
+    width: auto;
+    top: auto;
+    bottom: 120px;
+  }
 }
-ackdrop-filter: blur(16px) saturate(180%);
+/* RESILIENCE BADGE */
+.resilience-badge {
+  font-size: 11px;
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+  padding: 0;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-left: 8px;
+  vertical-align: middle;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  cursor: help;
+  animation: pulse-resilience 3s infinite ease-in-out;
+}
+@keyframes pulse-resilience {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; border-color: rgba(245, 158, 11, 0.6); }
+  100% { opacity: 0.8; }
+}
+/* ERROR REFINEMENT */
+.wp-error-container {
+  text-align: center;
+  padding: 40px 20px;
+}
+.wp-error-icon {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+.wp-error-msg {
+  color: var(--danger-color);
+  font-size: 16px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.wp-retry-btn {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-main);
+  padding: 8px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.wp-retry-btn:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* ── MOBILE RESPONSIVENESS & DYNAMIC ISLAND ── */
+
+/* Smooth body scroll for mobile */
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto !important;
+    overflow-x: hidden;
+  }
+}
+
+/* -- DYNAMIC ISLAND CONTAINER -- */
+.dynamic-island-container {
+  position: fixed;
+  top: env(safe-area-inset-top, 20px);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10000;
+  pointer-events: none;
+  /* Hardware Acceleration */
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.dynamic-island {
+  pointer-events: auto;
+  background: rgba(4, 8, 20, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 40px; /* Perfect Pill */
@@ -4264,177 +4198,194 @@ ackdrop-filter: blur(16px) saturate(180%);
     margin-top: 40px;
     padding: 0 30px;
     animation: fadeIn 0.8s ease-out;
-  }  .dynamic-island {
-    min-width: 140px !important;
-    height: 48px !important;
-    background: var(--card-bg) !important;
-    backdrop-filter: blur(24px) saturate(200%) !important;
-    -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
-    border: 1px solid var(--card-border) !important;
-    box-shadow: var(--card-shadow) !important;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  
+  .dash-main {
+    flex: 0 0 760px;
+    text-align: left;
+  }
+  
+  .dash-sidebar {
+    flex: 0 0 380px;
+    text-align: left;
+    margin-top: 30px;
+  }
+}
+
+/* ── MOBILE RESPONSIVENESS & DYNAMIC ISLAND ── */
+
+/* Smooth body scroll for mobile */
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto !important;
+    overflow-x: hidden;
+  }
+}
+
+/* -- DYNAMIC ISLAND CONTAINER -- */
+.dynamic-island-container {
+  position: fixed;
+  top: env(safe-area-inset-top, 20px);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10000;
+  pointer-events: none;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.dynamic-island {
+  pointer-events: auto;
+  background: rgba(4, 8, 20, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 40px;
+  min-width: 140px;
+  height: 44px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  backface-visibility: hidden;
+  perspective: 1000;
+}
+
+.dynamic-island.expanded {
+  width: 90vw;
+  max-width: 400px;
+  height: auto;
+  min-height: 56px;
+  border-radius: 28px;
+  background: rgba(6, 10, 28, 0.95);
+}
+
+.island-pill-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  height: 44px;
+  width: 100%;
+}
+
+.dynamic-island.expanded .island-pill-view {
+  padding: 0 16px;
+  height: 52px;
+}
+
+/* ── GRID & LAYOUT REFINEMENTS ── */
+
+@media (max-width: 991px) {
+  .brand-container {
+    margin-top: 60px;
+  }
+  
+  .dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 0 20px;
+    margin-top: 20px;
+  }
+  
+  .dash-main {
+    order: 1;
+    width: 100%;
+  }
+  
+  .dash-sidebar {
+    order: 2;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-logo { width: 200px; }
+  .weather-card h2 { font-size: 1.3rem; }
+  .detail-temp-big { font-size: 56px; }
+}
+
+/* ── MOBILE UI OVERHAUL (Fixes for Sluggishness & Alignment) ── */
+@media (max-width: 768px) {
+  /* Search Hub Refinement (Glassmorphism & Ergonomics) */
+  .dynamic-island {
+    background: rgba(6, 12, 32, 0.85); /* Slightly darker for better contrast */
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border: 1.5px solid rgba(255, 255, 255, 0.12); /* Brighter edge */
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65), inset 0 0 15px rgba(255, 255, 255, 0.05);
+    height: 48px; /* Slightly taller for easier touch */
   }
 
   .dynamic-island.expanded {
-    min-width: 280px !important;
-    height: auto !important;
-    background: var(--card-bg-solid) !important;
-    padding-bottom: 12px !important;
-    border-radius: 28px !important;
-  }
-
-  .island-pill-view {
-    padding: 0 !important;
-    height: 48px !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-
-  .island-search-group {
-    flex: 1 !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 0 !important;
-  }
-
-  .dynamic-island.expanded .island-search-group {
-    justify-content: flex-start !important;
-    gap: 12px !important;
-    padding-left: 16px !important;
-  }
-
-  .island-predict-group {
-    flex: 1 !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-
-  .dynamic-island.expanded .island-predict-group {
-    flex: 0 0 auto !important;
-    padding-right: 12px !important;
+    max-width: 94vw;
+    border-radius: 32px;
+    padding: 2px;
   }
 
   .island-input-field {
-    background: var(--input-bg) !important;
-    border: 1px solid var(--input-border) !important;
-    border-radius: 12px !important;
-    padding: 0 12px !important;
-    font-size: 16px !important;
-    color: var(--text-bright) !important;
-    max-width: 170px !important;
+    font-size: 16px !important; /* Prevent iOS zoom on focus */
+    color: var(--text-bright);
+    font-weight: 500;
   }
 
   .island-input-field::placeholder {
-    color: var(--text-dim) !important;
-    opacity: 0.6;
+    color: rgba(255, 255, 255, 0.4);
   }
 
-  .island-icon-btn {
-    width: 40px !important;
-    height: 40px !important;
-    min-width: 40px !important;
-    padding: 0 !important;
-    border-radius: 50% !important;
-    display: flex !important;
+  /* Predictor Modal Alignment Fixes */
+  .predictor-hero h2 {
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+  }
+
+  .predictor-inputs {
+    flex-direction: column;
+    padding: 0 10px;
+    gap: 15px;
+  }
+
+  .predictor-inputs input[type="text"],
+  .predictor-inputs input[type="date"],
+  .predictor-inputs button {
+    width: 100% !important;
+    height: 52px;
+    border-radius: 16px;
+    margin: 0;
+  }
+
+  .predictor-panel {
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    max-width: 94vw;
+  }
+
+  .pred-highlight {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 15px;
+  }
+
+  .pred-stat-block {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-    background: transparent !important;
-    color: var(--text-dim) !important;
+    width: 100%;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  .island-icon-btn:hover,
-  .island-icon-btn:active {
-    background: rgba(125, 211, 252, 0.1) !important;
-    color: var(--accent-secondary) !important;
-    transform: scale(1.05);
+  .pred-stat-val {
+    font-size: 1.8rem;
   }
 
-  #islandSearchToggle {
-    color: var(--accent-secondary) !important;
-  }
-
-  #islandPredictBtn {
-    color: var(--accent-primary) !important;
-  }
-
-  .island-divider {
-    margin: 0 !important; /* Managed by flex balance */
-    height: 18px !important;
-    width: 1px !important;
-    background: var(--card-border) !important;
-    opacity: 0.8 !important;
-  }
-
-  .dynamic-island.expanded .island-divider {
-    opacity: 0 !important;
-  }
-
-  /* -- GLASS SUGGESTIONS & BUG FIX -- */
-  .island-suggestions {
-    background: transparent !important;
-    border-top: 1px solid transparent !important; /* Fix: specific border only when active */
-    max-height: 0;
-    overflow: hidden;
-    transition: all 0.4s ease;
-  }
-
-  .dynamic-island.expanded .island-suggestions:not(:empty) {
-    max-height: 350px !important;
-    border-top: 1px solid var(--card-border) !important;
-    padding: 8px 0 !important;
-  }
-
-  .island-suggestion-item {
-    padding: 14px 20px !important;
-    border-bottom: 1px solid var(--card-border) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 4px !important;
-    background: transparent !important;
-    color: var(--text-main) !important;
-  }
-
-  .island-suggestion-item:active {
-    background: rgba(255, 255, 255, 0.05) !important;
-  }
-
-  .island-suggestion-item .suggestion-city {
-    font-size: 15px !important;
-    font-weight: 600 !important;
-    color: var(--text-bright) !important;
-  }
-
-  .island-suggestion-item .suggestion-details {
-    font-size: 11px !important;
-    color: var(--text-dim) !important;
-    opacity: 0.8;
-  }
-
-  .verified-badge {
-    color: var(--accent-primary);
-  }
-
-  /* -- GLOBE MINI-ISLAND -- */
-  .mini-island {
-    width: 48px !important;
-    height: 48px !important;
-    min-width: 48px !important;
-    border-radius: 24px !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    padding: 0 !important;
-    background: var(--card-bg) !important;
-    backdrop-filter: blur(24px) saturate(200%) !important;
-    border: 1px solid var(--card-border) !important;
-    box-shadow: var(--card-shadow) !important;
-  }
-ortant;
+  /* Weather Modal Stability (Remove Horizontal Swiping) */
+  .modal-panel {
+    overflow-x: hidden !important;
     max-width: 96vw;
   }
 
