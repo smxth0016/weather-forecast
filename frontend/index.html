@@ -38,9 +38,11 @@
              <input type="text" id="islandInput" placeholder="Where to?" autocomplete="off" class="island-input-field" />
           </div>
           <div class="island-divider"></div>
-          <button class="island-icon-btn" id="islandPredictBtn" title="Predict Future">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
-          </button>
+          <div class="island-predict-group">
+            <button class="island-icon-btn" id="islandPredictBtn" title="Predict Future">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
+            </button>
+          </div>
         </div>
         <!-- Dynamic Island Expand Area (Suggestions etc.) -->
         <div id="islandSuggestions" class="island-suggestions"></div>
@@ -49,7 +51,7 @@
     
     <!-- Globe Mini-Island -->
     <div class="dynamic-island mini-island" id="globeIsland">
-      <button id="planetViewTrigger" class="planet-trigger" title="Global Planetary View">
+      <button id="planetViewTriggerMobile" class="planet-trigger" title="Global Planetary View">
         <span class="planet-icon">🌍</span>
       </button>
     </div>
@@ -230,7 +232,7 @@
 
 
   <!-- Planetary View Trigger -->
-  <button id="planetViewTrigger" class="planet-trigger" title="Global Planetary View">
+  <button id="planetViewTriggerDesktop" class="planet-trigger" title="Global Planetary View">
     <span class="planet-icon">🌍</span>
     <span class="planet-label">Planet View</span>
   </button>

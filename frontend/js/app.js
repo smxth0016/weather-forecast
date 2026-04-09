@@ -646,7 +646,7 @@ runPredictBtn?.addEventListener("click", async () => {
 // ─── 3D GLOBE INITIALIZATION ─────────────────────────────────
 export let planetaryGlobe = null;
 
-document.getElementById("planetViewTrigger")?.addEventListener("click", () => {
+const openGlobe = () => {
   document.getElementById("planetaryView").classList.add("active");
   document.body.classList.add("globe-view-active");
   
@@ -659,7 +659,10 @@ document.getElementById("planetViewTrigger")?.addEventListener("click", () => {
   if (STATE.lastData && STATE.lastData.lat && STATE.lastData.lon) {
     planetaryGlobe.pointTo(STATE.lastData.lat, STATE.lastData.lon);
   }
-});
+};
+
+document.getElementById("planetViewTriggerMobile")?.addEventListener("click", openGlobe);
+document.getElementById("planetViewTriggerDesktop")?.addEventListener("click", openGlobe);
 
 document.getElementById("closePlanetBtn")?.addEventListener("click", () => {
   document.getElementById("planetaryView").classList.remove("active");
