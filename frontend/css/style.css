@@ -4308,3 +4308,269 @@ body.weather-bg-rainy .cloud {
   .weather-card h2 { font-size: 1.3rem; }
   .detail-temp-big { font-size: 56px; }
 }
+
+/* ── MOBILE UI OVERHAUL (Fixes for Sluggishness & Alignment) ── */
+@media (max-width: 768px) {
+  /* Search Hub Refinement (Glassmorphism & Ergonomics) */
+  .dynamic-island {
+    background: rgba(6, 12, 32, 0.85); /* Slightly darker for better contrast */
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border: 1.5px solid rgba(255, 255, 255, 0.12); /* Brighter edge */
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65), inset 0 0 15px rgba(255, 255, 255, 0.05);
+    height: 48px; /* Slightly taller for easier touch */
+  }
+
+  .dynamic-island.expanded {
+    max-width: 94vw;
+    border-radius: 32px;
+    padding: 2px;
+  }
+
+  .island-input-field {
+    font-size: 16px !important; /* Prevent iOS zoom on focus */
+    color: var(--text-bright);
+    font-weight: 500;
+  }
+
+  .island-input-field::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  /* Predictor Modal Alignment Fixes */
+  .predictor-hero h2 {
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+  }
+
+  .predictor-inputs {
+    flex-direction: column;
+    padding: 0 10px;
+    gap: 15px;
+  }
+
+  .predictor-inputs input[type="text"],
+  .predictor-inputs input[type="date"],
+  .predictor-inputs button {
+    width: 100% !important;
+    height: 52px;
+    border-radius: 16px;
+    margin: 0;
+  }
+
+  .predictor-panel {
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    max-width: 94vw;
+  }
+
+  .pred-highlight {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 15px;
+  }
+
+  .pred-stat-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .pred-stat-val {
+    font-size: 1.8rem;
+  }
+
+  /* Weather Modal Stability (Remove Horizontal Swiping) */
+  .modal-panel {
+    overflow-x: hidden !important;
+    max-width: 96vw;
+  }
+
+  .modal-body {
+    padding: 16px 20px 40px;
+    overflow-x: hidden !important;
+  }
+
+  .modal-stats {
+    grid-template-columns: repeat(2, 1fr); /* 2x2 grid for stability */
+    gap: 12px;
+  }
+
+  .modal-two-col {
+    grid-template-columns: 1fr; /* Stack sun/wind */
+    gap: 12px;
+  }
+
+  .modal-hero {
+    flex-direction: column;
+    text-align: center;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+    gap: 15px;
+  }
+
+  .modal-hero-info {
+    text-align: center;
+  }
+
+  .modal-hero-icon {
+    font-size: 4rem;
+  }
+
+
+
+  /* -- SEARCH SPACING & ERGONOMICS -- */
+  .island-input-field {
+    padding-left: 38px !important; /* Premium breathing room from search icon */
+    letter-spacing: 0.4px;
+    font-size: 16px !important;
+  }
+
+  .island-search-group {
+    gap: 8px !important;
+  }
+
+  /* -- PREDICTOR LOGO & TITLE ALIGNMENT -- */
+  .predictor-title-row {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-top: 10px;
+  }
+  
+  .predictor-title-row .modal-icon {
+    width: 32px !important;
+    height: 32px !important;
+    margin: 0 !important;
+    transform: translateY(-1px); /* Perfect baseline snap */
+  }
+
+  .predictor-hero h2 {
+    font-size: 1.4rem !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+    text-align: left !important;
+  }
+
+  /* -- GLOBE HUD DECONGESTION (Max Simplicity) -- */
+  .hud-eyebrow, 
+  .hud-subtitle,
+  .hud-coords {
+    display: none !important; /* Hide secondary clutter */
+  }
+
+  .hud-title-panel {
+    background: rgba(6, 12, 32, 0.7);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 10px 14px !important;
+    max-width: 200px !important; /* Keep it slim */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .hud-title {
+    font-size: 0.95rem !important;
+    margin-bottom: 4px !important;
+    white-space: nowrap;
+  }
+
+  .hud-stats-row {
+    gap: 8px !important;
+    margin-top: 4px !important;
+  }
+
+  .hud-stat-val {
+    font-size: 0.85rem !important;
+  }
+
+  .hud-stat-label {
+    font-size: 8px !important;
+    letter-spacing: 0.5px;
+  }
+
+  .hud-controls-panel {
+    top: 15px !important;
+    right: 15px !important;
+    padding: 0 !important;
+  }
+
+  /* -- COMPACT GLOBE CITY DETAIL CARD -- */
+  .hud-city-detail.visible {
+    right: 12px;
+    left: 12px;
+    width: auto;
+    bottom: 85px; /* Stay clear of central globe */
+    padding: 16px 20px !important; /* Significantly reduced from 30px */
+    border-radius: 20px;
+    max-height: 220px;
+    overflow: hidden;
+  }
+
+  .detail-city-name {
+    font-size: 1.1rem !important; /* Significant size reduction */
+    margin-bottom: 2px !important;
+  }
+
+  .detail-condition {
+    font-size: 12px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .detail-temp-big {
+    font-size: 38px !important; /* Shrunk from 72px */
+    margin-bottom: 15px !important;
+    letter-spacing: -1px !important;
+  }
+
+  .detail-grid {
+    gap: 10px !important;
+  }
+
+  .detail-stat {
+    padding: 8px !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .detail-stat:nth-child(n+3) {
+    display: none !important; /* Hide High/Low to decongest mobile card */
+  }
+
+  .detail-stat-label {
+    font-size: 9px !important;
+    margin: 0 !important;
+  }
+
+  .detail-stat-val {
+    font-size: 14px !important;
+  }
+
+  .detail-close {
+    width: 24px !important;
+    height: 24px !important;
+    top: 12px !important;
+    right: 12px !important;
+    font-size: 12px !important;
+  }
+
+  /* Performance (Sluggishness Fixes) */
+  .dynamic-island, 
+  .modal-panel, 
+  .weather-card,
+  .hud-city-detail {
+    transform: translateZ(0); /* Force GPU acceleration */
+    will-change: transform, opacity;
+  }
+
+  /* Reduce filter complexity on mobile to speed up paint */
+  .modal-overlay {
+    backdrop-filter: blur(4px);
+  }
+}
