@@ -4162,7 +4162,7 @@ body.weather-bg-rainy .cloud {
   border-top: 1px solid transparent;
 }
 
-.dynamic-island.expanded .island-suggestions:not(:empty) {
+.dynamic-island.expanded .island-suggestions.visible {
   max-height: 300px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 8px 0;
@@ -4594,7 +4594,7 @@ body.weather-bg-rainy .cloud {
     min-width: 280px !important;
     height: auto !important;
     background: rgba(8, 16, 40, 0.98) !important;
-    padding-bottom: 12px !important;
+    padding-bottom: 2px !important; /* Reduced base padding, suggestions will add their own when visible */
   }
 
   .island-pill-view {

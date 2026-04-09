@@ -696,6 +696,7 @@ function contractIsland() {
   island.classList.remove("expanded");
   islandInput.value = "";
   islandSugg.innerHTML = "";
+  islandSugg.classList.remove("visible");
 }
 
 islandToggle?.addEventListener("click", (e) => {
@@ -723,34 +724,44 @@ islandInput?.addEventListener("keydown", (e) => {
 
 islandInput?.addEventListener("input", async (e) => {
   const query = e.target.value.trim();
-  if (query.length < 2) { islandSugg.innerHTML = ""; return; }
+  if (query.length < 2) { 
+    islandSugg.innerHTML = ""; 
+    islandSugg.classList.remove("visible");
+    return; 
+  }
   
   const results = await fetchCitySuggestions(query);
   islandSugg.innerHTML = "";
-  results.slice(0, 10).forEach(res => {
-    const div = document.createElement("div");
-    div.className = "island-suggestion-item";
-    
-    const details = [res.admin1, res.country].filter(Boolean).join(", ");
-    const cCode   = res.country_code ? `[${res.country_code.toUpperCase()}]` : "";
-    const isMajor = res.population > 50000;
-    
-    div.innerHTML = `
-      <div class="suggestion-row">
-        <span class="suggestion-city">${res.name} ${isMajor ? ' <span class="verified-badge">✓</span>' : ''}</span>
-        <span class="suggestion-code">${cCode}</span>
-      </div>
-      <span class="suggestion-details">${details}</span>
-    `;
-    
-    div.onclick = (e) => {
-      e.stopPropagation();
-      const fullName = [res.name, res.country].filter(Boolean).join(", ");
-      handleSearch(fullName, res.latitude, res.longitude);
-      contractIsland();
-    };
-    islandSugg.appendChild(div);
-  });
+  
+  if (results.length > 0) {
+    islandSugg.classList.add("visible");
+    results.slice(0, 10).forEach(res => {
+      const div = document.createElement("div");
+      div.className = "island-suggestion-item";
+      
+      const details = [res.admin1, res.country].filter(Boolean).join(", ");
+      const cCode   = res.country_code ? `[${res.country_code.toUpperCase()}]` : "";
+      const isMajor = res.population > 50000;
+      
+      div.innerHTML = `
+        <div class="suggestion-row">
+          <span class="suggestion-city">${res.name} ${isMajor ? ' <span class="verified-badge">✓</span>' : ''}</span>
+          <span class="suggestion-code">${cCode}</span>
+        </div>
+        <span class="suggestion-details">${details}</span>
+      `;
+      
+      div.onclick = (e) => {
+        e.stopPropagation();
+        const fullName = [res.name, res.country].filter(Boolean).join(", ");
+        handleSearch(fullName, res.latitude, res.longitude);
+        contractIsland();
+      };
+      islandSugg.appendChild(div);
+    });
+  } else {
+    islandSugg.classList.remove("visible");
+  }
 });
 
 // Close island when clicking outside
