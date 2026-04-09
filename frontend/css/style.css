@@ -4014,7 +4014,7 @@ body.weather-bg-rainy .cloud {
 /* -- DYNAMIC ISLAND CONTAINER -- */
 .dynamic-island-container {
   position: fixed;
-  top: env(safe-area-inset-top, 35px);
+  top: calc(35px + env(safe-area-inset-top, 0px));
   left: 0;
   right: 0;
   display: flex;
@@ -4225,7 +4225,7 @@ body.weather-bg-rainy .cloud {
 /* -- DYNAMIC ISLAND CONTAINER -- */
 .dynamic-island-container {
   position: fixed;
-  top: env(safe-area-inset-top, 35px);
+  top: calc(35px + env(safe-area-inset-top, 0px));
   left: 0;
   right: 0;
   display: flex;
