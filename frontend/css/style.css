@@ -4582,7 +4582,7 @@ body.weather-bg-rainy .cloud {
   }
 
   .dynamic-island {
-    min-width: 110px !important; /* Balanced collapse width */
+    min-width: 140px !important; /* Fixed width for consistent balance */
     height: 48px !important;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
@@ -4592,17 +4592,41 @@ body.weather-bg-rainy .cloud {
   }
 
   .island-pill-view {
-    padding: 0 12px !important;
+    padding: 0 !important; /* Reset padding to use flex balancing */
     height: 48px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
   }
 
   .island-search-group {
-    flex: 0 0 auto !important; /* Fix: Don't take extra space when collapsed */
-    gap: 12px !important;
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important; /* Center the icon in the left half */
+    gap: 0 !important;
+    padding-left: 8px !important;
   }
 
   .dynamic-island.expanded .island-search-group {
-    flex: 1 !important; /* Grow when expanded for typing */
+    flex: 1 !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    padding-left: 16px !important;
+  }
+
+  /* Balance the predictor button on the right */
+  #islandPredictBtn {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    padding-right: 8px !important;
+  }
+
+  .island-divider {
+    margin: 0 !important;
+    height: 20px !important;
+    opacity: 0.15 !important;
   }
 
   /* -- GLOBE MINI-ISLAND -- */
