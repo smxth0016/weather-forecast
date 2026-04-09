@@ -648,6 +648,7 @@ export let planetaryGlobe = null;
 
 document.getElementById("planetViewTrigger")?.addEventListener("click", () => {
   document.getElementById("planetaryView").classList.add("active");
+  document.body.classList.add("globe-view-active");
   
   if (!planetaryGlobe) {
     planetaryGlobe = new PlanetaryGlobe("globeContainer", STATE);
@@ -662,6 +663,7 @@ document.getElementById("planetViewTrigger")?.addEventListener("click", () => {
 
 document.getElementById("closePlanetBtn")?.addEventListener("click", () => {
   document.getElementById("planetaryView").classList.remove("active");
+  document.body.classList.remove("globe-view-active");
 });
 
 document.body.addEventListener("themeChanged", () => {
