@@ -4582,17 +4582,21 @@ body.weather-bg-rainy .cloud {
   }
 
   .dynamic-island {
-    min-width: 140px !important; /* Fixed width for consistent balance */
+    min-width: 140px !important;
     height: 48px !important;
+    background: rgba(6, 12, 32, 0.85) !important;
+    backdrop-filter: blur(24px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
   .dynamic-island.expanded {
     min-width: 280px !important;
+    background: rgba(8, 16, 40, 0.98) !important;
   }
 
   .island-pill-view {
-    padding: 0 !important; /* Reset padding to use flex balancing */
+    padding: 0 !important;
     height: 48px !important;
     display: flex !important;
     justify-content: center !important;
@@ -4602,7 +4606,7 @@ body.weather-bg-rainy .cloud {
   .island-search-group {
     flex: 1 !important;
     display: flex !important;
-    justify-content: center !important; /* Center the icon in the left half */
+    justify-content: center !important;
     gap: 0 !important;
     padding-left: 8px !important;
   }
@@ -4612,6 +4616,32 @@ body.weather-bg-rainy .cloud {
     justify-content: flex-start !important;
     gap: 12px !important;
     padding-left: 16px !important;
+  }
+
+  .island-input-field {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    padding: 0 12px !important;
+    font-size: 16px !important;
+    color: #fff !important;
+  }
+
+  .island-icon-btn {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease !important;
+  }
+
+  .island-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+    transform: scale(1.05);
   }
 
   /* Balance the predictor button on the right */
@@ -4624,9 +4654,57 @@ body.weather-bg-rainy .cloud {
   }
 
   .island-divider {
-    margin: 0 !important;
+    margin: 0 14px !important; /* Restored partition line spacing */
     height: 20px !important;
-    opacity: 0.15 !important;
+    width: 1px !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    opacity: 1 !important;
+  }
+
+  /* -- PREMIUM MOBILE SUGGESTIONS -- */
+  .island-suggestions {
+    background: transparent !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .island-suggestion-item {
+    padding: 14px 20px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+    background: transparent !important;
+  }
+
+  .island-suggestion-item:active {
+    background: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  .island-suggestion-item .suggestion-city {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: var(--text-bright) !important;
+  }
+
+  .island-suggestion-item .suggestion-details {
+    font-size: 11px !important;
+    color: var(--text-dim) !important;
+    opacity: 0.8;
+  }
+
+  .verified-badge {
+    font-size: 10px;
+    color: var(--accent-primary);
+    margin-left: 4px;
+    font-weight: bold;
+  }
+
+  .suggestion-code {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-left: 6px;
+    opacity: 0.6;
   }
 
   /* -- GLOBE MINI-ISLAND -- */
@@ -4634,11 +4712,13 @@ body.weather-bg-rainy .cloud {
     width: 48px !important;
     height: 48px !important;
     min-width: 48px !important;
-    border-radius: 24px !important; /* Circle pill */
+    border-radius: 24px !important;
     display: flex !important;
     align-items: center;
     justify-content: center;
     padding: 0 !important;
+    background: rgba(6, 12, 32, 0.85) !important;
+    backdrop-filter: blur(24px) saturate(200%) !important;
   }
 
   .planet-trigger {
@@ -4651,7 +4731,7 @@ body.weather-bg-rainy .cloud {
     align-items: center;
     justify-content: center;
     box-shadow: none !important;
-    position: static !important; /* Remove legacy fixed positioning */
+    position: static !important;
   }
 
   .planet-icon {
@@ -4667,7 +4747,7 @@ body.weather-bg-rainy .cloud {
   body.globe-view-active .dynamic-island-container {
     opacity: 0;
     pointer-events: none;
-    transform: translate3d(0, -30px, 0); /* Smooth exit upward */
+    transform: translate3d(0, -30px, 0);
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -4706,7 +4786,7 @@ body.weather-bg-rainy .cloud {
 
   /* -- MAIN DASHBOARD INSTRUMENT FIXES -- */
   .wp-instruments {
-    flex-direction: column !important; /* Stack instruments on small mobile */
+    flex-direction: column !important;
     gap: 12px !important;
     padding: 0 20px 20px !important;
   }
@@ -4714,10 +4794,10 @@ body.weather-bg-rainy .cloud {
   .wp-instrument-card {
     width: 100% !important;
     padding: 12px 16px !important;
-    overflow: hidden; /* Prevent sun arc bleeding */
+    overflow: hidden;
   }
 
   .wp-mini-sun {
-    width: 90px !important; /* Slightly larger since it has full width now */
+    width: 90px !important;
   }
 }

@@ -724,10 +724,22 @@ islandInput?.addEventListener("input", async (e) => {
   
   const results = await fetchCitySuggestions(query);
   islandSugg.innerHTML = "";
-  results.slice(0, 5).forEach(res => {
+  results.slice(0, 10).forEach(res => {
     const div = document.createElement("div");
     div.className = "island-suggestion-item";
-    div.innerHTML = `<span>${res.name}</span> <span class="text-muted" style="font-size:10px;">${res.country_code?.toUpperCase() || ""}</span>`;
+    
+    const details = [res.admin1, res.country].filter(Boolean).join(", ");
+    const cCode   = res.country_code ? `[${res.country_code.toUpperCase()}]` : "";
+    const isMajor = res.population > 50000;
+    
+    div.innerHTML = `
+      <div class="suggestion-row">
+        <span class="suggestion-city">${res.name} ${isMajor ? ' <span class="verified-badge">✓</span>' : ''}</span>
+        <span class="suggestion-code">${cCode}</span>
+      </div>
+      <span class="suggestion-details">${details}</span>
+    `;
+    
     div.onclick = (e) => {
       e.stopPropagation();
       const fullName = [res.name, res.country].filter(Boolean).join(", ");
