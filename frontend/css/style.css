@@ -4014,7 +4014,7 @@ body.weather-bg-rainy .cloud {
 /* -- DYNAMIC ISLAND CONTAINER -- */
 .dynamic-island-container {
   position: fixed;
-  top: env(safe-area-inset-top, 20px);
+  top: env(safe-area-inset-top, 35px);
   left: 0;
   right: 0;
   display: flex;
@@ -4225,7 +4225,7 @@ body.weather-bg-rainy .cloud {
 /* -- DYNAMIC ISLAND CONTAINER -- */
 .dynamic-island-container {
   position: fixed;
-  top: env(safe-area-inset-top, 20px);
+  top: env(safe-area-inset-top, 35px);
   left: 0;
   right: 0;
   display: flex;
@@ -4281,7 +4281,7 @@ body.weather-bg-rainy .cloud {
 
 @media (max-width: 991px) {
   .brand-container {
-    margin-top: 60px;
+    margin-top: 100px;
   }
   
   .dashboard {
