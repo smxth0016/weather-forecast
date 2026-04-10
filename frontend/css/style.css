@@ -4827,17 +4827,27 @@ body.weather-bg-rainy .cloud {
   }
 
   .showing-hints .island-btn-label {
-    max-width: 100px;
+    max-width: 120px; /* Increased to ensure Predictor/Globe View fit */
     opacity: 1;
     margin-left: 8px;
   }
 
   .showing-hints #dynamicIsland {
-    min-width: 220px !important;
+    min-width: 250px !important;
+    width: auto !important;
+  }
+
+  /* Allow buttons inside main island to expand */
+  .showing-hints .island-icon-btn {
+    width: auto !important;
+    min-width: 40px !important;
+    padding: 0 14px !important;
+    border-radius: 24px !important;
   }
 
   .showing-hints #globeIsland {
-    min-width: 135px !important;
+    width: auto !important;
+    min-width: 140px !important;
     padding: 0 16px !important;
     border-radius: 24px !important;
   }
