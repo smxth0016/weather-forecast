@@ -4813,6 +4813,7 @@ body.weather-bg-rainy .cloud {
 
   /* -- MOBILE BUTTON DISCOVERY (Welcome Glide) -- */
   .island-btn-label {
+    width: 0;
     max-width: 0;
     opacity: 0;
     overflow: hidden;
@@ -4823,13 +4824,15 @@ body.weather-bg-rainy .cloud {
     font-weight: 600;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     color: var(--text-bright);
-    margin-left: 0;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .showing-hints .island-btn-label {
+    width: auto;
     max-width: 120px; /* Increased to ensure Predictor/Globe View fit */
     opacity: 1;
-    margin-left: 8px;
+    margin-left: 8px !important;
   }
 
   .showing-hints #dynamicIsland {
