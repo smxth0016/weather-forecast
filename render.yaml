@@ -5,7 +5,7 @@ services:
     # Build command: Installs requirements for the backend
     buildCommand: "pip install -r backend/requirements.txt"
     # Start command: Uses gunicorn, changing directory to backend to find app.py
-    startCommand: "gunicorn --chdir backend app:app"
+    startCommand: "gunicorn --chdir backend --timeout 120 app:app"
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
