@@ -558,14 +558,18 @@ input:focus {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(125, 211, 252, 0.05),
+    rgba(125, 211, 252, 0.08),
     transparent
   );
   pointer-events: none;
   z-index: 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
+.search-input-group:hover::after,
 .search-input-group:focus-within::after {
+  opacity: 1;
   animation: scanline 3s linear infinite;
 }
 
@@ -2801,11 +2805,21 @@ body.day-theme .bm-card.condition-foggy {
 }
 
 .scanner-ring {
-  animation: rotateScanner 6s linear infinite;
   transform-origin: center;
+  transition: opacity 0.3s ease;
+}
+
+.predict-btn:hover .scanner-ring,
+.predictor-panel.open .scanner-ring {
+  animation: rotateScanner 6s linear infinite;
 }
 
 .pulse-core {
+  transition: opacity 0.3s ease;
+}
+
+.predict-btn:hover .pulse-core,
+.predictor-panel.open .pulse-core {
   animation: corePulse 2s ease-in-out infinite;
 }
 
