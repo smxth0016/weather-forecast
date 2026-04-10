@@ -770,3 +770,27 @@ document.addEventListener("click", (e) => {
     contractIsland();
   }
 });
+
+// ─── MOBILE DISCOVERY HINTS (Welcome Glide) ──────────────────
+/**
+ * Automatically expands mobile buttons to show labels on page load,
+ * then collapses them after a short delay.
+ */
+function triggerMobileHints() {
+  const container = document.getElementById("islandContainer");
+  // Only trigger on mobile viewports
+  if (!container || window.innerWidth > 768) return;
+
+  // Wait a moment for initial paint and Vanta background to stabilize
+  setTimeout(() => {
+    container.classList.add("showing-hints");
+
+    // Remove hints after 3.5 seconds of visibility
+    setTimeout(() => {
+      container.classList.remove("showing-hints");
+    }, 3500);
+  }, 800);
+}
+
+// Trigger every time the app loads, per user request
+triggerMobileHints();

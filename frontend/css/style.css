@@ -4810,4 +4810,35 @@ body.weather-bg-rainy .cloud {
   .wp-mini-sun {
     width: 90px !important;
   }
+
+  /* -- MOBILE BUTTON DISCOVERY (Welcome Glide) -- */
+  .island-btn-label {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--text-bright);
+    margin-left: 0;
+  }
+
+  .showing-hints .island-btn-label {
+    max-width: 100px;
+    opacity: 1;
+    margin-left: 8px;
+  }
+
+  .showing-hints #dynamicIsland {
+    min-width: 220px !important;
+  }
+
+  .showing-hints #globeIsland {
+    min-width: 135px !important;
+    padding: 0 16px !important;
+    border-radius: 24px !important;
+  }
 }
