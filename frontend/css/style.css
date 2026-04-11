@@ -4909,3 +4909,49 @@ body.weather-bg-rainy .cloud {
     border-radius: 24px !important;
   }
 }
+
+/* ── DESKTOP WELCOME HINTS (Discovery Glide) ── */
+@media (min-width: 769px) {
+  .desktop-btn-label {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: 500;
+    transition: max-width 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, margin 0.4s ease;
+    pointer-events: none;
+    margin-left: 0;
+    color: inherit;
+  }
+
+  /* Search Buttons Glide Expansion */
+  .search-box.showing-hints #searchBtn,
+  .search-box.showing-hints .predict-btn {
+    width: auto !important;
+    min-width: 46px;
+    padding: 0 20px !important;
+    border-radius: 24px !important;
+    justify-content: center !important;
+  }
+
+  .search-box.showing-hints .desktop-btn-label {
+    max-width: 120px;
+    opacity: 1;
+    margin-left: 10px;
+  }
+
+  /* Planet Trigger Hint Effect (Subtle Luminous Pulse) */
+  #planetViewTriggerDesktop.showing-hints {
+    animation: desktopPlanetHint 1.5s ease-in-out infinite alternate;
+    border-color: var(--accent-secondary) !important;
+    box-shadow: 0 0 25px rgba(125, 211, 252, 0.25), 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  @keyframes desktopPlanetHint {
+    from { transform: scale(1); filter: brightness(1); }
+    to { transform: scale(1.05); filter: brightness(1.15); }
+  }
+}

@@ -771,26 +771,39 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// ─── MOBILE DISCOVERY HINTS (Welcome Glide) ──────────────────
+// ─── WELCOME DISCOVERY HINTS (Welcome Glide) ──────────────────
 /**
- * Automatically expands mobile buttons to show labels on page load,
- * then collapses them after a short delay.
+ * Automatically expands discovery labels on page load to guide the user,
+ * then collapses them after a short delay for a minimalist UI.
  */
-function triggerMobileHints() {
-  const container = document.getElementById("islandContainer");
-  // Only trigger on mobile viewports
-  if (!container || window.innerWidth > 768) return;
+function triggerWelcomeHints() {
+  const isMobile = window.innerWidth <= 768;
 
-  // Wait a moment for initial paint and Vanta background to stabilize
-  setTimeout(() => {
-    container.classList.add("showing-hints");
+  if (isMobile) {
+    const mobileContainer = document.getElementById("islandContainer");
+    if (!mobileContainer) return;
 
-    // Remove hints after 3.5 seconds of visibility
+    // Mobile Discovery Timing
     setTimeout(() => {
-      container.classList.remove("showing-hints");
-    }, 3500);
-  }, 800);
+      mobileContainer.classList.add("showing-hints");
+      setTimeout(() => mobileContainer.classList.remove("showing-hints"), 3500);
+    }, 800);
+  } else {
+    // Desktop Discovery Timing
+    const desktopSearchBox = document.querySelector(".search-box.d-md-flex");
+    const planetBtn = document.getElementById("planetViewTriggerDesktop");
+
+    setTimeout(() => {
+      if (desktopSearchBox) desktopSearchBox.classList.add("showing-hints");
+      if (planetBtn) planetBtn.classList.add("showing-hints");
+
+      setTimeout(() => {
+        if (desktopSearchBox) desktopSearchBox.classList.remove("showing-hints");
+        if (planetBtn) planetBtn.classList.remove("showing-hints");
+      }, 3500);
+    }, 800);
+  }
 }
 
-// Trigger every time the app loads, per user request
-triggerMobileHints();
+// Trigger discovery flow on every load
+triggerWelcomeHints();
