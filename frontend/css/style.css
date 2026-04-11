@@ -4775,6 +4775,46 @@ body.weather-bg-rainy .cloud {
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
+  /* -- DAY THEME MOBILE HUB OVERRIDES -- */
+  .day-theme .dynamic-island,
+  .day-theme .mini-island {
+    background: rgba(255, 255, 255, 0.65) !important;
+    backdrop-filter: blur(24px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+    border-color: rgba(3, 105, 161, 0.15) !important;
+    box-shadow: 0 16px 45px rgba(7, 89, 133, 0.12), inset 0 0 15px rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .day-theme .dynamic-island.expanded {
+    background: rgba(255, 255, 255, 0.92) !important;
+  }
+
+  .day-theme .island-icon-btn {
+    color: #0369a1 !important;
+  }
+
+  .day-theme .island-icon-btn:hover {
+    background: rgba(3, 105, 161, 0.1) !important;
+  }
+  
+  .day-theme .island-divider {
+    background: rgba(3, 105, 161, 0.15) !important;
+  }
+
+  .day-theme .island-input-field {
+    background: rgba(3, 105, 161, 0.05) !important;
+    border-color: rgba(3, 105, 161, 0.12) !important;
+    color: #0c4a6e !important;
+  }
+
+  .day-theme .island-input-field::placeholder {
+    color: rgba(3, 105, 161, 0.45);
+  }
+
+  .day-theme .island-btn-label {
+    color: #082f49 !important; /* var(--text-bright) equivalent for certainty */
+  }
+
   /* -- PREDICTOR DATE INPUT NORMALIZATION -- */
   .predictor-inputs input[type="date"] {
     padding: 0 16px !important;
