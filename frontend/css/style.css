@@ -1704,6 +1704,12 @@ button:active {
 .bar-fill.aqi {
   background: linear-gradient(90deg, #10b981, #6ee7b7);
 }
+.bar-fill.aqi.aqi-good { background: linear-gradient(90deg, #10b981, #34d399); }
+.bar-fill.aqi.aqi-moderate { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.bar-fill.aqi.aqi-unhealthy-sensitive { background: linear-gradient(90deg, #f97316, #fb923c); }
+.bar-fill.aqi.aqi-unhealthy { background: linear-gradient(90deg, #ef4444, #f87171); }
+.bar-fill.aqi.aqi-very-unhealthy { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+.bar-fill.aqi.aqi-hazardous { background: linear-gradient(90deg, #7f1d1d, #b91c1c); }
 
 .bar-fill.visibility {
   background: linear-gradient(90deg, #06b6d4, #a5f3fc);

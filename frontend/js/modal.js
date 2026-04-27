@@ -1,6 +1,7 @@
 // ══════════════════════════════════════════════════════════════
 //  modal.js  —  Full-detail weather modal with charts
 // ══════════════════════════════════════════════════════════════
+import { resolveAQI } from "./ui.js";
 
 // (Removed fake data generators)
 function uvLabel(v) {
@@ -356,6 +357,15 @@ export function openDetailModal(data, useFahrenheit = false) {
         </div>
         <div class="bar-track"><div class="bar-fill visibility" data-w="${Math.min(100,(data.visibility / 20 * 100).toFixed(0))}"></div></div>
       </div>
+      ${data.aqi !== undefined ? `
+      <div class="bar-stat">
+        <div class="bar-stat-header">
+          <span class="bar-stat-name">🌫 Air Quality</span>
+          <span class="bar-stat-value">${data.aqi} — ${resolveAQI(data.aqi).label}</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill aqi ${resolveAQI(data.aqi).cls}" data-w="${Math.min(100, (data.aqi / 300 * 100).toFixed(0))}"></div></div>
+      </div>
+      ` : ''}
     </div>
   `;
 
