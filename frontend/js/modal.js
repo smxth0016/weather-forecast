@@ -1,7 +1,7 @@
 // ══════════════════════════════════════════════════════════════
 //  modal.js  —  Full-detail weather modal with charts
 // ══════════════════════════════════════════════════════════════
-import { resolveAQI } from "./ui.js";
+import { resolveAQI, escapeHTML } from "./ui.js";
 
 // (Removed fake data generators)
 function uvLabel(v) {
@@ -233,11 +233,11 @@ export function openDetailModal(data, useFahrenheit = false) {
   document.getElementById("modalBody").innerHTML = `
     <!-- HERO -->
     <div class="modal-hero">
-      <span class="modal-hero-icon">${icon}</span>
+      <div class="modal-hero-icon">${getIcon(data.condition)}</div>
       <div class="modal-hero-info">
-        <div class="modal-hero-city">${data.city}</div>
+        <div class="modal-hero-city">${escapeHTML(data.city)}</div>
         <div class="modal-hero-temp">${toT(data.temperature)}${unit}</div>
-        <div class="modal-hero-condition">${data.condition}</div>
+        <div class="modal-hero-condition">${escapeHTML(data.condition)}</div>
         <div class="modal-hero-feels">Feels like ${toT(data.feelsLike)}${unit}</div>
       </div>
     </div>

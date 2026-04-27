@@ -10,6 +10,24 @@ import time
 app = Flask(__name__, static_folder='../frontend', static_url_path='')
 CORS(app)
 
+@app.after_request
+def add_security_headers(response):
+    """Inject industrial-grade security headers to protect from XSS and Clickjacking"""
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    # Strict CSP to prevent unauthorized script execution
+    response.headers['Content-Security-Policy'] = (
+        "default-src 'self'; "
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; "
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; "
+        "font-src 'self' https://fonts.gstatic.com; "
+        "img-src 'self' data: https:; "
+        "connect-src 'self' https://api.open-meteo.com https://geocoding-api.open-meteo.com "
+        "https://air-quality-api.open-meteo.com https://archive-api.open-meteo.com https://wttr.in;"
+    )
+    return response
+
 # Database and Predictor Initialization
 from database import init_db
 from predictor import WeatherPredictor
