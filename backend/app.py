@@ -81,6 +81,18 @@ def fetch_from_wttr(city):
         print(f"❌ Fallback also failed: {e}")
         return None
 
+def fetch_aqi(lat, lon):
+    """Fetch US AQI from Open-Meteo Air Quality API"""
+    try:
+        url = f"https://air-quality-api.open-meteo.com/v1/air-quality?latitude={lat}&longitude={lon}&current=us_aqi"
+        resp = requests.get(url, timeout=5)
+        resp.raise_for_status()
+        data = resp.json()
+        return data.get('current', {}).get('us_aqi')
+    except Exception as e:
+        print(f"⚠️ AQI Fetch failed: {e}")
+        return None
+
 def map_weather_code_to_condition(code):
     if code == 0: return 'Clear skies'
     if code in [1, 2]: return 'Partly cloudy'
@@ -189,6 +201,7 @@ def get_weather():
 
     try:
         weather_data = fetch_forecast(latitude, longitude)
+        aqi_val = fetch_aqi(latitude, longitude)
     except Exception as err:
         print(f"⚠️ Primary source failed, trying wttr.in...")
         resilient_data = fetch_from_wttr(city)
@@ -248,6 +261,7 @@ def get_weather():
             "uvIndex": uv_index_val,
             "isDay": weather_data['current']['is_day'] == 1,
             "currentTime": weather_data['current']['time'],
+            "aqi": aqi_val,
             "hourly": hourly_data,
             "forecast": forecast_data
         }

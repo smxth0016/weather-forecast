@@ -139,6 +139,57 @@ body {
   pointer-events: none;
 }
 
+/* AQI Component */
+.aqi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(5px);
+  cursor: help;
+}
+
+.aqi-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.aqi-good { background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3); }
+.aqi-moderate { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); }
+.aqi-unhealthy-sensitive { background: rgba(249, 115, 22, 0.15); color: #f97316; border-color: rgba(249, 115, 22, 0.3); }
+.aqi-unhealthy { background: rgba(239, 68, 68, 0.15); color: #ef4444; border-color: rgba(239, 68, 68, 0.3); }
+.aqi-very-unhealthy { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border-color: rgba(139, 92, 246, 0.3); }
+.aqi-hazardous { background: rgba(127, 29, 29, 0.2); color: #f87171; border-color: rgba(127, 29, 29, 0.4); }
+.aqi-na { background: rgba(255, 255, 255, 0.05); color: var(--text-dim); }
+
+.aqi-val-num {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.aqi-label-text {
+  font-size: 10px;
+  opacity: 0.9;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  padding-left: 6px;
+  margin-left: 2px;
+}
+
+.day-theme .aqi-label-text {
+  border-left-color: rgba(0, 0, 0, 0.1);
+}
+
+.day-theme .aqi-good { background: rgba(5, 150, 105, 0.1); }
+.day-theme .aqi-moderate { background: rgba(217, 119, 6, 0.1); }
+.day-theme .aqi-unhealthy { background: rgba(220, 38, 38, 0.1); }
+
 .day-theme .stars-layer,
 .day-theme .aurora {
   opacity: 0;

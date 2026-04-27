@@ -39,6 +39,16 @@ export function resolvePillClass(str = "") {
   return "pill-cloudy";
 }
 
+export function resolveAQI(val) {
+  if (val === null || val === undefined) return { label: "N/A", cls: "aqi-na", icon: "😶" };
+  if (val <= 50) return { label: "Good", cls: "aqi-good", icon: "🍃" };
+  if (val <= 100) return { label: "Moderate", cls: "aqi-moderate", icon: "🌤️" };
+  if (val <= 150) return { label: "Unhealthy for Sensitive Groups", cls: "aqi-unhealthy-sensitive", icon: "😷" };
+  if (val <= 200) return { label: "Unhealthy", cls: "aqi-unhealthy", icon: "🤢" };
+  if (val <= 300) return { label: "Very Unhealthy", cls: "aqi-very-unhealthy", icon: "☢️" };
+  return { label: "Hazardous", cls: "aqi-hazardous", icon: "☣️" };
+}
+
 export function toFahrenheit(c) {
   return +((c * 9) / 5 + 32).toFixed(1);
 }
@@ -483,7 +493,16 @@ export function renderWeather(data, useFahrenheit = false, bookmarked = false) {
           ${data.city}
           ${data.provider === 'wttr.in' ? '<span class="resilience-badge" title="Resilience Mode: Primary service unreachable. Using high-reliability fallback.">🛡️</span>' : ''}
         </div>
-        <span class="cond-pill ${pillCls}">${icon} ${data.condition}</span>
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span class="cond-pill ${pillCls}">${icon} ${data.condition}</span>
+          ${data.aqi !== undefined ? `
+            <div class="aqi-badge ${resolveAQI(data.aqi).cls}" title="Air Quality Index (US AQI)">
+              <span>${resolveAQI(data.aqi).icon}</span>
+              <span class="aqi-val-num">${data.aqi}</span>
+              <span class="aqi-label-text">${resolveAQI(data.aqi).label}</span>
+            </div>
+          ` : ''}
+        </div>
         <div class="wp-temp">${tempStr(data.temperature, useFahrenheit)}</div>
         <div class="wp-feels">Feels like ${tempStr(feelsLike, useFahrenheit)}</div>
       </div>
