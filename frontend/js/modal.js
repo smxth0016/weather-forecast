@@ -1,7 +1,7 @@
 // ══════════════════════════════════════════════════════════════
 //  modal.js  —  Full-detail weather modal with charts
 // ══════════════════════════════════════════════════════════════
-import { resolveAQI, escapeHTML } from "./ui.js";
+import { resolveAQI, escapeHTML, ICONS } from "./ui.js";
 
 // (Removed fake data generators)
 function uvLabel(v) {
@@ -212,12 +212,12 @@ export function openDetailModal(data, useFahrenheit = false) {
   const unit = useFahrenheit ? "°F" : "°C";
 
   const condIcons = {
-    sunny:"☀️",clear:"☀️",hot:"☀️",rain:"🌧️",drizzle:"🌧️",shower:"🌦️",
-    cloud:"☁️",overcast:"☁️",mist:"☁️",partly:"⛅",snow:"❄️",sleet:"❄️",
-    storm:"⛈️",thunder:"⛈️"
+    sunny:ICONS.SUN, clear:ICONS.SUN, hot:ICONS.SUN, rain:ICONS.RAIN, drizzle:ICONS.RAIN, shower:ICONS.RAIN,
+    cloud:ICONS.CLOUD, overcast:ICONS.CLOUD, mist:ICONS.CLOUD, partly:ICONS.CLOUD, snow:ICONS.SNOW, sleet:ICONS.SNOW,
+    storm:ICONS.STORM, thunder:ICONS.STORM
   };
   const getIcon = (condString) => {
-    let icon = "☁️";
+    let icon = ICONS.CLOUD;
     const lc = (condString || "").toLowerCase();
     for (const [kw, em] of Object.entries(condIcons)) {
       if (lc.includes(kw)) { icon = em; break; }
@@ -246,22 +246,22 @@ export function openDetailModal(data, useFahrenheit = false) {
     <p class="modal-section-label">At a glance</p>
     <div class="modal-stats">
       <div class="stat-pill">
-        <span class="stat-pill-icon">💧</span>
+        <span class="stat-pill-icon">${ICONS.DROP}</span>
         <span class="stat-pill-val">${data.humidity}%</span>
         <span class="stat-pill-label">Humidity</span>
       </div>
       <div class="stat-pill">
-        <span class="stat-pill-icon">🌬</span>
+        <span class="stat-pill-icon">${ICONS.WIND}</span>
         <span class="stat-pill-val">${data.windSpeed} m/s</span>
         <span class="stat-pill-label">Wind ${windDir}</span>
       </div>
       <div class="stat-pill">
-        <span class="stat-pill-icon">👁</span>
+        <span class="stat-pill-icon">${ICONS.VISIBILITY}</span>
         <span class="stat-pill-val">${data.visibility} km</span>
         <span class="stat-pill-label">Visibility</span>
       </div>
       <div class="stat-pill">
-        <span class="stat-pill-icon">📊</span>
+        <span class="stat-pill-icon">${ICONS.PRESSURE}</span>
         <span class="stat-pill-val">${data.pressure} hPa</span>
         <span class="stat-pill-label">Pressure</span>
       </div>
@@ -283,12 +283,12 @@ export function openDetailModal(data, useFahrenheit = false) {
       <div class="sun-arc-wrap">
         <div class="sun-times">
           <div class="sun-time-item">
-            <span class="sun-time-icon">🌅</span>
+            <span class="sun-time-icon">${ICONS.SUN}</span>
             <span class="sun-time-val">${data.sunrise}</span>
             <span class="sun-time-label">Sunrise</span>
           </div>
           <div class="sun-time-item">
-            <span class="sun-time-icon">🌇</span>
+            <span class="sun-time-icon">${ICONS.CLOUD}</span>
             <span class="sun-time-val">${data.sunset}</span>
             <span class="sun-time-label">Sunset</span>
           </div>
@@ -331,28 +331,28 @@ export function openDetailModal(data, useFahrenheit = false) {
     <div class="bar-stat-list">
       <div class="bar-stat">
         <div class="bar-stat-header">
-          <span class="bar-stat-name">💧 Humidity</span>
+          <span class="bar-stat-name">${ICONS.DROP} Humidity</span>
           <span class="bar-stat-value">${data.humidity}%</span>
         </div>
         <div class="bar-track"><div class="bar-fill humidity" data-w="${data.humidity}"></div></div>
       </div>
       <div class="bar-stat">
         <div class="bar-stat-header">
-          <span class="bar-stat-name">☀️ UV Index</span>
+          <span class="bar-stat-name">${ICONS.SUN} UV Index</span>
           <span class="bar-stat-value" style="color:${uvColor}">${data.uvIndex} — ${uvLabel(data.uvIndex)}</span>
         </div>
         <div class="bar-track"><div class="bar-fill uv" data-w="${(data.uvIndex / 11 * 100).toFixed(0)}"></div></div>
       </div>
       <div class="bar-stat">
         <div class="bar-stat-header">
-          <span class="bar-stat-name">📊 Pressure</span>
+          <span class="bar-stat-name">${ICONS.PRESSURE} Pressure</span>
           <span class="bar-stat-value">${data.pressure} hPa</span>
         </div>
         <div class="bar-track"><div class="bar-fill pressure" data-w="${((data.pressure - 980) / 60 * 100).toFixed(0)}"></div></div>
       </div>
       <div class="bar-stat">
         <div class="bar-stat-header">
-          <span class="bar-stat-name">👁 Visibility</span>
+          <span class="bar-stat-name">${ICONS.VISIBILITY} Visibility</span>
           <span class="bar-stat-value">${data.visibility} km</span>
         </div>
         <div class="bar-track"><div class="bar-fill visibility" data-w="${Math.min(100,(data.visibility / 20 * 100).toFixed(0))}"></div></div>
@@ -360,7 +360,7 @@ export function openDetailModal(data, useFahrenheit = false) {
       ${data.aqi !== undefined ? `
       <div class="bar-stat">
         <div class="bar-stat-header">
-          <span class="bar-stat-name">🌫 Air Quality</span>
+          <span class="bar-stat-name">${ICONS.CLOUD} Air Quality</span>
           <span class="bar-stat-value">${data.aqi} — ${resolveAQI(data.aqi).label}</span>
         </div>
         <div class="bar-track"><div class="bar-fill aqi ${resolveAQI(data.aqi).cls}" data-w="${Math.min(100, (data.aqi / 300 * 100).toFixed(0))}"></div></div>

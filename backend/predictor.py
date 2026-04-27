@@ -43,9 +43,9 @@ class WeatherPredictor:
                         response = requests.get(url, timeout=15)
                         if response.status_code == 429:
                             if attempt == max_retries - 1:
-                                print(f"[PREDICTOR] 🛑 Max retries reached for {city_name} (Rate Limited). Skipping sync.")
+                                print(f"[PREDICTOR] [CRITICAL] Max retries reached for {city_name} (Rate Limited). Skipping sync.")
                                 break
-                            print(f"[PREDICTOR] ⚠️ Rate limit hit (429). Attempt {attempt+1}/{max_retries}. Backing off for {retry_delay}s...")
+                            print(f"[PREDICTOR] [WARNING] Rate limit hit (429). Attempt {attempt+1}/{max_retries}. Backing off for {retry_delay}s...")
                             time.sleep(retry_delay)
                             retry_delay *= 4  # Aggressive exponential backoff
                             continue
@@ -78,18 +78,18 @@ class WeatherPredictor:
                                 DailyWeather.query.filter_by(city_id=city.id).delete()
                                 db.session.bulk_save_objects(new_records)
                                 db.session.commit()
-                                print(f"[PREDICTOR] ✅ Successfully synced {len(new_records)} records for {city_name}.")
+                                print(f"[PREDICTOR] [SUCCESS] Successfully synced {len(new_records)} records for {city_name}.")
                                 break # Success
                         else:
-                            print(f"[PREDICTOR] ❌ Unexpected API response format for {city_name}")
+                            print(f"[PREDICTOR] [ERROR] Unexpected API response format for {city_name}")
                             break
                     except Exception as e:
-                        print(f"[PREDICTOR] ❌ Sync attempt {attempt+1} failed: {e}")
+                        print(f"[PREDICTOR] [ERROR] Sync attempt {attempt+1} failed: {e}")
                         if attempt < max_retries - 1:
                             time.sleep(retry_delay)
                             retry_delay *= 2
                         else:
-                            print(f"[PREDICTOR] 🛑 All sync attempts failed for {city_name}.")
+                            print(f"[PREDICTOR] [CRITICAL] All sync attempts failed for {city_name}.")
             return city
 
     def predict_weather(self, city_name, month, day):

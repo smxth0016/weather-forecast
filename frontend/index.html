@@ -53,7 +53,12 @@
     <!-- Globe Mini-Island -->
     <div class="dynamic-island mini-island" id="globeIsland">
       <button id="planetViewTriggerMobile" class="planet-trigger" title="Global Planetary View">
-        <span class="planet-icon">🌍</span><span class="island-btn-label">Globe View</span>
+        <span class="planet-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" style="display:block;">
+            <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </span>
+        <span class="island-btn-label">Globe View</span>
       </button>
     </div>
   </div>
@@ -158,7 +163,11 @@
       <div class="dash-main">
         <!-- Hidden by default — shown only when no data loaded -->
         <div class="dash-empty-main hidden" id="dashEmptyMain" style="display:none;">
-          <span class="dash-empty-icon">🔍</span>
+          <span class="dash-empty-icon">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.6">
+              <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+            </svg>
+          </span>
           <p class="dash-empty-title">Search a city to get started</p>
           <p class="dash-empty-sub text-muted">Type a city name above and press Search</p>
         </div>
@@ -183,9 +192,13 @@
         <div class="bookmarks-list" id="bookmarksList"></div>
 
         <div class="bookmarks-empty" id="bookmarksEmpty">
-          <span class="bookmarks-empty-icon">🔖</span>
+          <span class="bookmarks-empty-icon">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+          </span>
           <p class="bookmarks-empty-title">No bookmarks yet</p>
-          <p class="bookmarks-empty-sub text-muted">Search a city and tap <strong>☆ Bookmark</strong> to save it here</p>
+          <p class="bookmarks-empty-sub text-muted">Search a city and tap <strong>Bookmark</strong> to save it here</p>
         </div>
       </div>
     </div>
@@ -236,7 +249,11 @@
 
   <!-- Planetary View Trigger -->
   <button id="planetViewTriggerDesktop" class="planet-trigger" title="Global Planetary View">
-    <span class="planet-icon">🌍</span>
+    <span class="planet-icon">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+    </span>
     <span class="planet-label">Planet View</span>
   </button>
 

@@ -96,7 +96,7 @@ def fetch_from_wttr(city):
             "provider": "wttr.in"
         }
     except Exception as e:
-        print(f"❌ Fallback also failed: {e}")
+        print(f"[RESIILIENCE] Fallback failed: {e}")
         return None
 
 def fetch_aqi(lat, lon):

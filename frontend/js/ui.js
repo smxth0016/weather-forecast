@@ -4,14 +4,30 @@ const weatherResult  = document.getElementById("weatherResult");
 const dashEmptyMain  = document.getElementById("dashEmptyMain");
 const celestialBody  = document.getElementById("celestialBody");
 
+export const ICONS = {
+  SUN: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>',
+  CLOUD: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19c2.5 0 4.5-2 4.5-4.5 0-2.4-1.8-4.3-4.2-4.5C17.4 6.9 14.5 4 11 4c-3.1 0-5.7 2.1-6.7 5C2.1 9.5 0 11.8 0 14.5 0 17 2 19 4.5 19h13z"/></svg>',
+  RAIN: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 13v8M8 13v8M12 15v8M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/></svg>',
+  SNOW: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25M8 16h.01M8 20h.01M12 18h.01M12 22h.01M16 16h.01M16 20h.01"/></svg>',
+  STORM: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 9M13 11l-4 6h6l-4 6"/></svg>',
+  WIND: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.7 7.7A2.5 2.5 0 1 1 15.8 12H3M21 14a2.5 2.5 0 1 0-2.5-2.5H3M17.3 19.3A2.5 2.5 0 1 1 15.4 15H3"/></svg>',
+  DROP: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>',
+  THERMOMETER: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/></svg>',
+  SHIELD: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+  VISIBILITY: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>',
+  PRESSURE: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>',
+  STAR: '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+  STAR_OUTLINE: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'
+};
+
 // ─── CONDITION THEME MAP ─────────────────────────────────────
 const CONDITION_THEMES = [
-  { keywords: ["storm", "thunder", "tornado", "heavy rain", "violent"], cls: "condition-stormy", icon: "⛈️", stripe: "stripe-storm"},
-  { keywords: ["sun", "clear", "hot"],                 cls: "condition-sunny",  icon: "☀️",  stripe: "stripe-hot"  },
-  { keywords: ["rain", "drizzle", "shower"],           cls: "condition-rainy",  icon: "🌧️",  stripe: "stripe-cool" },
-  { keywords: ["cloud", "overcast", "partly"],         cls: "condition-cloudy", icon: "☁️",  stripe: "stripe-mild" },
-  { keywords: ["snow", "sleet", "blizzard"],           cls: "condition-snowy",  icon: "❄️",  stripe: "stripe-cold" },
-  { keywords: ["mist", "fog", "haze"],                 cls: "condition-foggy",  icon: "🌫️",  stripe: "stripe-mild" },
+  { keywords: ["storm", "thunder", "tornado", "heavy rain", "violent"], cls: "condition-stormy", icon: ICONS.STORM, stripe: "stripe-storm"},
+  { keywords: ["sun", "clear", "hot"],                 cls: "condition-sunny",  icon: ICONS.SUN,  stripe: "stripe-hot"  },
+  { keywords: ["rain", "drizzle", "shower"],           cls: "condition-rainy",  icon: ICONS.RAIN,  stripe: "stripe-cool" },
+  { keywords: ["cloud", "overcast", "partly"],         cls: "condition-cloudy", icon: ICONS.CLOUD,  stripe: "stripe-mild" },
+  { keywords: ["snow", "sleet", "blizzard"],           cls: "condition-snowy",  icon: ICONS.SNOW,  stripe: "stripe-cold" },
+  { keywords: ["mist", "fog", "haze"],                 cls: "condition-foggy",  icon: ICONS.CLOUD,  stripe: "stripe-mild" },
 ];
 
 const COND_PILL_MAP = {
@@ -28,7 +44,7 @@ export function resolveCondition(str = "") {
   for (const theme of CONDITION_THEMES) {
     if (theme.keywords.some(kw => lower.includes(kw))) return theme;
   }
-  return { cls: "", icon: "🌡️", stripe: "stripe-mild" };
+  return { cls: "", icon: ICONS.THERMOMETER, stripe: "stripe-mild" };
 }
 
 export function resolvePillClass(str = "") {
@@ -479,13 +495,13 @@ export function renderWeather(data, useFahrenheit = false, bookmarked = false) {
   const windDirs = ['N','NE','E','SE','S','SW','W','NW'];
   const windDir  = windDirs[Math.round((data.windDirDeg || 0) / 45) % 8];
 
-  let comfortLabel = 'Comfort Index', comfortVal = null, comfortIcon = '🌡️', comfortClass = 'mild';
+  let comfortLabel = 'Comfort Index', comfortVal = null, comfortIcon = ICONS.THERMOMETER, comfortClass = 'mild';
   if (data.temperature >= 27 && data.humidity >= 40) {
     comfortVal   = calcHeatIndex(data.temperature, data.humidity);
-    comfortLabel = 'Heat Index'; comfortIcon = '🔥'; comfortClass = 'hot';
+    comfortLabel = 'Heat Index'; comfortIcon = ICONS.THERMOMETER; comfortClass = 'hot';
   } else if (data.temperature <= 10) {
     const wc = calcWindChill(data.temperature, data.windSpeed);
-    if (wc !== null) { comfortVal = wc; comfortLabel = 'Wind Chill'; comfortIcon = '🥶'; comfortClass = 'cold'; }
+    if (wc !== null) { comfortVal = wc; comfortLabel = 'Wind Chill'; comfortIcon = ICONS.THERMOMETER; comfortClass = 'cold'; }
   }
   const comfortDisplay = comfortVal !== null ? `${comfortVal}°` : 'N/A';
 
@@ -498,7 +514,7 @@ export function renderWeather(data, useFahrenheit = false, bookmarked = false) {
       <div class="wp-left">
         <div class="wp-city">
           ${escapeHTML(data.city)}
-          ${data.provider === 'wttr.in' ? '<span class="resilience-badge" title="Resilience Mode: Primary service unreachable. Using high-reliability fallback.">🛡️</span>' : ''}
+          ${data.provider === 'wttr.in' ? `<span class="resilience-badge" title="Resilience Mode: Primary service unreachable. Using high-reliability fallback.">${ICONS.SHIELD}</span>` : ''}
         </div>
         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
           <span class="cond-pill ${pillCls}">${icon} ${escapeHTML(data.condition)}</span>
@@ -515,7 +531,7 @@ export function renderWeather(data, useFahrenheit = false, bookmarked = false) {
       <div class="wp-right">
         <div class="wp-icon">${icon}</div>
         <button class="bookmark-btn${bookmarked ? " active" : ""}" id="bookmarkBtn">
-          ${bookmarked ? "★ Bookmarked" : "☆ Bookmark"}
+          ${bookmarked ? ICONS.STAR + " Bookmarked" : ICONS.STAR_OUTLINE + " Bookmark"}
         </button>
       </div>
     </div>
@@ -523,19 +539,19 @@ export function renderWeather(data, useFahrenheit = false, bookmarked = false) {
     <!-- ── Stats + Comfort merged 3×2 grid ───────────────────────── -->
     <div class="wp-stats">
       <div class="wp-stat">
-        <span class="wp-stat-label">Humidity</span>
+        <span class="wp-stat-label">${ICONS.DROP} Humidity</span>
         <span class="wp-stat-val">${data.humidity}%</span>
       </div>
       <div class="wp-stat">
-        <span class="wp-stat-label">Wind</span>
+        <span class="wp-stat-label">${ICONS.WIND} Wind</span>
         <span class="wp-stat-val">${data.windSpeed} m/s</span>
       </div>
       <div class="wp-stat">
-        <span class="wp-stat-label">High / Low</span>
+        <span class="wp-stat-label">${ICONS.THERMOMETER} High / Low</span>
         <span class="wp-stat-val">${tempStr(hi, useFahrenheit)} · ${tempStr(lo, useFahrenheit)}</span>
       </div>
       <div class="wp-stat">
-        <span class="wp-stat-label">💧 Dew Point</span>
+        <span class="wp-stat-label">${ICONS.DROP} Dew Point</span>
         <span class="wp-stat-val">${dewPoint}°</span>
       </div>
       <div class="wp-stat">
@@ -586,7 +602,7 @@ export function renderWeather(data, useFahrenheit = false, bookmarked = false) {
         <canvas id="miniSunCanvas" class="wp-mini-sun"></canvas>
         <div class="wp-instrument-info">
           <span class="wp-instrument-title">Sun path</span>
-          <span class="wp-instrument-sub">🌅 ${data.sunrise || '--:--'} · 🌇 ${data.sunset || '--:--'}</span>
+          <span class="wp-instrument-sub">${ICONS.SUN} ${data.sunrise || '--:--'} · ${ICONS.CLOUD} ${data.sunset || '--:--'}</span>
         </div>
       </div>
     </div>
@@ -636,7 +652,7 @@ export function showError(message) {
   weatherResult.onclick = null;
   weatherResult.innerHTML = `
     <div class="wp-error-container">
-      <p class="wp-error-icon">⚠️</p>
+      <p class="wp-error-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"/></svg></p>
       <p class="wp-error-msg">${message}</p>
       <button class="wp-retry-btn" onclick="location.reload()">Try Reconnecting</button>
     </div>
