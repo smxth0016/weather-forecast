@@ -40,13 +40,13 @@ export function resolvePillClass(str = "") {
 }
 
 export function resolveAQI(val) {
-  if (val === null || val === undefined) return { label: "N/A", cls: "aqi-na", icon: "😶" };
-  if (val <= 50) return { label: "Good", cls: "aqi-good", icon: "🍃" };
-  if (val <= 100) return { label: "Moderate", cls: "aqi-moderate", icon: "🌤️" };
-  if (val <= 150) return { label: "Unhealthy for Sensitive Groups", cls: "aqi-unhealthy-sensitive", icon: "😷" };
-  if (val <= 200) return { label: "Unhealthy", cls: "aqi-unhealthy", icon: "🤢" };
-  if (val <= 300) return { label: "Very Unhealthy", cls: "aqi-very-unhealthy", icon: "☢️" };
-  return { label: "Hazardous", cls: "aqi-hazardous", icon: "☣️" };
+  if (val === null || val === undefined) return { label: "N/A", cls: "aqi-na" };
+  if (val <= 50) return { label: "Good", cls: "aqi-good" };
+  if (val <= 100) return { label: "Moderate", cls: "aqi-moderate" };
+  if (val <= 150) return { label: "Unhealthy for Sensitive Groups", cls: "aqi-unhealthy-sensitive" };
+  if (val <= 200) return { label: "Unhealthy", cls: "aqi-unhealthy" };
+  if (val <= 300) return { label: "Very Unhealthy", cls: "aqi-very-unhealthy" };
+  return { label: "Hazardous", cls: "aqi-hazardous" };
 }
 
 export function toFahrenheit(c) {
@@ -497,7 +497,6 @@ export function renderWeather(data, useFahrenheit = false, bookmarked = false) {
           <span class="cond-pill ${pillCls}">${icon} ${data.condition}</span>
           ${data.aqi !== undefined ? `
             <div class="aqi-badge ${resolveAQI(data.aqi).cls}" title="Air Quality Index (US AQI)">
-              <span>${resolveAQI(data.aqi).icon}</span>
               <span class="aqi-val-num">${data.aqi}</span>
               <span class="aqi-label-text">${resolveAQI(data.aqi).label}</span>
             </div>
