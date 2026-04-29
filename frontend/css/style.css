@@ -299,15 +299,15 @@ body::after {
   display: flex;
   gap: 8px;
   padding: 4px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(0, 0, 0, 0.3);
   border-radius: 30px;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .day-theme .category-tabs {
-  background: rgba(3, 105, 161, 0.05);
-  border-color: rgba(3, 105, 161, 0.1);
+  background: rgba(0, 0, 0, 0.12);
+  border-color: rgba(0, 0, 0, 0.15);
 }
 
 .cat-tab {
