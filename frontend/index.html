@@ -116,57 +116,69 @@
     </div>
 
     <!-- Desktop Search (Hidden on Mobile) -->
-    <div class="search-box d-none d-md-flex">
-      <div class="search-input-group">
-        <input type="text" id="cityInput" placeholder="Enter city name" autocomplete="off" />
-        <div class="input-brackets"></div>
-        <div id="suggestionsContainer" class="suggestions-container"></div>
-      </div>
-    <div class="search-meta-row">
-      <p class="search-hint">Supports any city in India &bull; ML-powered predictions</p>
-      <div class="category-tabs" id="categoryTabs">
-        <button class="cat-tab active" data-category="General">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          General
+    <div class="search-container">
+      <div class="search-box d-none d-md-flex">
+        <div class="search-input-group">
+          <input type="text" id="cityInput" placeholder="Enter city name" autocomplete="off" />
+          <div class="input-brackets"></div>
+          <div id="suggestionsContainer" class="suggestions-container"></div>
+        </div>
+        
+        <button id="searchBtn" title="Search">
+          <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M20 20L16.5 16.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <circle cx="11" cy="11" r="9" stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 2" class="search-outer-ring"/>
+          </svg>
+          <span class="desktop-btn-label">Search</span>
         </button>
-        <button class="cat-tab" data-category="Traveler">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
-          Traveler
+        
+        <button id="themeToggle" class="theme-toggle" title="Toggle Theme">
+          <div class="theme-sun-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          </div>
         </button>
-        <button class="cat-tab" data-category="Farmer">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M11 7h2v2h-2V7zm-2 2h2v2H9V9zm4 0h2v2h-2V9zM7 11h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zM5 13h2v2H5v-2zm4 0h2v2H9v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zM3 15h2v2H3v-2zm4 0h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z"/></svg>
-          Farmer
-        </button>
-        <button class="cat-tab" data-category="Student">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
-          Student
-        </button>
-        <button class="cat-tab" data-category="Picnic">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6.29-6.29 4 4 6.3-6.29L22 12V6h-6z"/></svg>
-          Picnic
-        </button>
-        <button class="cat-tab" data-category="Sports">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13.49 5.42c1.81 0 3.42 1.09 4.18 2.68l1.54-.69a6.012 6.012 0 0 0-4.79-3.99l-.33 1.66c-.2-.01-.4-.02-.6-.02v-1.7c-.2 0-.4.01-.6.02l-.33-1.66a6.012 6.012 0 0 0-4.79 3.99l1.54.69c.76-1.59 2.37-2.68 4.18-2.68zm-6.13 1.94l-.69-1.54a6.002 6.002 0 0 0-3.99 4.79l1.66.33c.01-.2.02-.4.02-.6 0-1.81 1.09-3.42 2.68-4.18l.32 1.2zM12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          Sports
+
+        <button id="openPredictorBtn" class="predict-btn" title="Predict Future Weather">
+          <svg class="predictor-icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 3" class="scanner-ring"/>
+            <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="12" cy="12" r="2" fill="currentColor" class="pulse-core"/>
+          </svg>
+          <span class="desktop-btn-label">Predictor</span>
         </button>
       </div>
-    </div>
-      <button id="searchBtn" title="Search">
-        <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/>
-          <path d="M20 20L16.5 16.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          <circle cx="11" cy="11" r="9" stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 2" class="search-outer-ring"/>
-        </svg>
-        <span class="desktop-btn-label">Search</span>
-      </button>
-      <button id="openPredictorBtn" class="predict-btn" title="Predict Future Weather">
-        <svg class="predictor-icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 3" class="scanner-ring"/>
-          <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.8"/>
-          <circle cx="12" cy="12" r="2" fill="currentColor" class="pulse-core"/>
-        </svg>
-        <span class="desktop-btn-label">Predictor</span>
-      </button>
+
+      <!-- Category Selector Row (BELOW search box) -->
+      <div class="search-meta-row">
+        <p class="search-hint">Supports any city in India &bull; ML-powered predictions</p>
+        <div class="category-tabs" id="categoryTabs">
+          <button class="cat-tab active" data-category="General">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            General
+          </button>
+          <button class="cat-tab" data-category="Traveler">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+            Traveler
+          </button>
+          <button class="cat-tab" data-category="Farmer">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M11 7h2v2h-2V7zm-2 2h2v2H9V9zm4 0h2v2h-2V9zM7 11h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zM5 13h2v2H5v-2zm4 0h2v2H9v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zM3 15h2v2H3v-2zm4 0h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z"/></svg>
+            Farmer
+          </button>
+          <button class="cat-tab" data-category="Student">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+            Student
+          </button>
+          <button class="cat-tab" data-category="Picnic">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6.29-6.29 4 4 6.3-6.29L22 12V6h-6z"/></svg>
+            Picnic
+          </button>
+          <button class="cat-tab" data-category="Sports">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13.49 5.42c1.81 0 3.42 1.09 4.18 2.68l1.54-.69a6.012 6.012 0 0 0-4.79-3.99l-.33 1.66c-.2-.01-.4-.02-.6-.02v-1.7c-.2 0-.4.01-.6.02l-.33-1.66a6.012 6.012 0 0 0-4.79 3.99l1.54.69c.76-1.59 2.37-2.68 4.18-2.68zm-6.13 1.94l-.69-1.54a6.002 6.002 0 0 0-3.99 4.79l1.66.33c.01-.2.02-.4.02-.6 0-1.81 1.09-3.42 2.68-4.18l.32 1.2zM12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            Sports
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Unit toggle -->

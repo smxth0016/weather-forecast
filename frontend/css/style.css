@@ -270,13 +270,19 @@ body::after {
 }
 
 /* ─── SMART INSIGHTS & CATEGORIES ─── */
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
 .search-meta-row {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  margin-top: -5px;
-  margin-bottom: 25px;
   animation: fadeIn 0.8s ease-out;
 }
 
@@ -344,8 +350,10 @@ body::after {
   background: rgba(3, 105, 161, 0.08);
 }
 
+/* Reset panel widths for side-by-side */
 .weather-panel {
   min-width: 0;
+  width: 100%;
 }
 
 /* Insights Panel */
@@ -1979,18 +1987,19 @@ button:active {
   position: relative;
   display: flex;
   flex-direction: row-reverse; /* Insights on left, Weather on right */
-  gap: 20px;
-  align-items: stretch;
+  gap: 24px;
+  align-items: flex-start;
 }
 
 .weather-panel {
-  flex: 1.3;
+  flex: 1.4; /* Weather card priority */
   min-width: 0;
 }
 
 .insights-panel {
   flex: 1;
   min-width: 0;
+  margin-top: 0 !important;
 }
 
 /* Empty state before search */
