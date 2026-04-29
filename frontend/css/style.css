@@ -369,6 +369,7 @@ body::after {
   box-shadow: var(--card-shadow), var(--card-inner-shadow);
   animation: slideUpFade 0.5s ease-out;
   min-width: 0;
+  text-align: left;
 }
 
 .insights-header {
@@ -1262,7 +1263,6 @@ button:active {
 
 /* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ BOOKMARK BUTTON (on weather card) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 .bookmark-btn {
-  margin-top: 18px;
   padding: 8px 22px;
   border-radius: 20px;
   border: 1px solid rgba(167, 139, 250, 0.35);
@@ -2050,6 +2050,7 @@ button:active {
   box-shadow: var(--card-shadow), var(--card-inner-shadow);
   overflow: hidden;
   position: relative;
+  text-align: left;
   animation: fadeIn 0.4s ease;
   cursor: pointer;
   transition: box-shadow 0.2s ease, transform 0.2s ease, background 0.5s ease;
@@ -2420,6 +2421,7 @@ button:active {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  text-align: left;
 }
 
 /* Header row */
