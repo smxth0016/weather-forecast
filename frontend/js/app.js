@@ -1,7 +1,7 @@
 import { fetchWeather } from "./weatherService.js";
 import { predictWeather } from "./predictorService.js";
 import {
-  renderWeather, showError, showSkeleton,
+  renderWeather, renderInsights, showError, showSkeleton,
   resolveCondition, resolvePillClass, stripeClass,
   tempStr, drawSparkline, updateWeatherScene, spawnParticlesInNode
 } from "./ui.js";
@@ -26,6 +26,7 @@ const STATE = {
   bookmarks:     [],
   history:       [],
   sortMode:      "recent",
+  currentCategory: "General",
 };
 
 // ─── PERSIST ─────────────────────────────────────────────────
@@ -43,7 +44,41 @@ function renderAll() {
   renderWeather(STATE.lastData, STATE.useFahrenheit, isBookmarked(STATE.lastData?.city));
   renderBookmarksList();
   renderHistoryChips();
+  if (STATE.lastData) fetchAndRenderInsights();
 }
+
+// ─── INSIGHTS ENGINE ─────────────────────────────────────────
+async function fetchAndRenderInsights() {
+  if (!STATE.lastData) return;
+  
+  try {
+    const resp = await fetch("/api/insights", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        weather: STATE.lastData,
+        category: STATE.currentCategory
+      })
+    });
+    
+    if (resp.ok) {
+      const insightsData = await resp.json();
+      renderInsights(insightsData);
+    }
+  } catch (err) {
+    console.warn("Failed to fetch insights:", err);
+  }
+}
+
+// Category Tab Listeners
+document.querySelectorAll(".cat-tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".cat-tab").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    STATE.currentCategory = tab.dataset.category;
+    fetchAndRenderInsights();
+  });
+});
 
 // ─── BOOKMARK HELPERS ────────────────────────────────────────
 function isBookmarked(city) {

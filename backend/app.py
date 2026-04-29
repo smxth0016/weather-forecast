@@ -31,9 +31,26 @@ def add_security_headers(response):
 # Database and Predictor Initialization
 from database import init_db
 from predictor import WeatherPredictor
+from insights import generate_insights
 
 init_db(app)
 predictor = WeatherPredictor(app)
+
+@app.route('/api/insights', methods=['POST'])
+def get_insights():
+    try:
+        data = request.get_json()
+        weather_data = data.get('weather')
+        category = data.get('category', 'General')
+        
+        if not weather_data:
+            return jsonify({"error": "Weather data is required"}), 400
+            
+        insights = generate_insights(weather_data, category)
+        return jsonify(insights)
+    except Exception as e:
+        print("Error generating insights:", e)
+        return jsonify({"error": str(e)}), 500
 
 # Circuit Breaker Globals
 SERVICE_STATUS = {

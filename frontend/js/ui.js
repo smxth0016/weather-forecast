@@ -638,7 +638,46 @@ export function renderWeather(data, useFahrenheit = false, bookmarked = false) {
     setTimeout(() => {
       const needle = document.getElementById('compassNeedle');
       if (needle) needle.style.transform = `rotate(${data.windDirDeg || 0}deg)`;
-    }, 80);
+  });
+}
+
+// ─── RENDER SMART INSIGHTS ───────────────────────────────────
+export function renderInsights(insightsData) {
+  const panel = document.getElementById("insightsPanel");
+  const summaryEl = document.getElementById("insightsSummary");
+  const categoryNameEl = document.getElementById("insightsCategoryName");
+  const iconEl = document.getElementById("insightsIcon");
+  const listEl = document.getElementById("insightsList");
+
+  if (!panel || !insightsData) return;
+
+  panel.style.display = "block";
+  panel.classList.remove("hidden");
+
+  summaryEl.textContent = insightsData.summary;
+  categoryNameEl.textContent = insightsData.category;
+  
+  // Set category icon
+  const icons = {
+    General: "🏠",
+    Traveler: "✈️",
+    Farmer: "🚜",
+    Student: "🎓",
+    Picnic: "🧺",
+    Sports: "🏃"
+  };
+  iconEl.textContent = icons[insightsData.category] || "✨";
+
+  listEl.innerHTML = "";
+  insightsData.insights.forEach((insight, idx) => {
+    const li = document.createElement("li");
+    li.className = "insight-item";
+    li.style.animationDelay = `${idx * 0.1}s`;
+    li.innerHTML = `
+      <div class="insight-icon-wrap">${insight.icon}</div>
+      <span>${insight.text}</span>
+    `;
+    listEl.appendChild(li);
   });
 }
 
