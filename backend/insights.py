@@ -151,7 +151,7 @@ def generate_insights(weather_data, category="General"):
             insights.append({"icon": "SPORTS", "text": "High humidity; surfaces may feel tacky. Good for ball control."})
             
         if len(insights) < 3:
-            insights.append({"icon": "STORM", "text": "Peak performance weather! Excellent for all outdoor sports."})
+            insights.append({"icon": "SPORTS", "text": "Peak performance weather! Excellent for all outdoor sports."})
             insights.append({"icon": "RUN", "text": "Stable temperatures; ideal for long-distance training."})
 
     # --- CATEGORY: GENERAL ---
