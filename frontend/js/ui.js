@@ -548,9 +548,10 @@ export function renderWeather(data, useFahrenheit = false, bookmarked = false) {
 
     <div class="wp-top">
       <div class="wp-left">
-        <div class="wp-city">
+        <div class="wp-city" style="display:flex; align-items:baseline; gap:8px;">
           ${escapeHTML(data.city)}
           ${data.provider === 'wttr.in' ? `<span class="resilience-badge" title="Resilience Mode: Primary service unreachable. Using high-reliability fallback.">${ICONS.SHIELD}</span>` : ''}
+          <span class="wp-live-time" id="liveTimeDisplay" style="font-size: 14px; font-weight: 500; opacity: 0.8;"></span>
         </div>
         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
           <span class="cond-pill ${pillCls}">${icon} ${escapeHTML(data.condition)}</span>
@@ -654,6 +655,38 @@ export function renderWeather(data, useFahrenheit = false, bookmarked = false) {
       <span class="expand-hint">Click card for full details ↗</span>
     </div>
   `;
+
+  if (window.__liveTimeTimeout) clearTimeout(window.__liveTimeTimeout);
+  if (window.__liveTimeInterval) clearInterval(window.__liveTimeInterval);
+  const timeEl = document.getElementById("liveTimeDisplay");
+  if (timeEl) {
+    const updateTime = () => {
+      try {
+        if (data.timezone && data.timezone !== "UTC") {
+          timeEl.textContent = new Date().toLocaleTimeString("en-US", { 
+            timeZone: data.timezone, 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: false 
+          });
+        } else if (data.currentTime) {
+          timeEl.textContent = data.currentTime.split('T')[1];
+        }
+      } catch(e) {
+        if (data.currentTime) timeEl.textContent = data.currentTime.split('T')[1];
+      }
+    };
+    updateTime();
+    
+    if (data.timezone && data.timezone !== "UTC") {
+      const now = new Date();
+      const msUntilNextMinute = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+      window.__liveTimeTimeout = setTimeout(() => {
+        updateTime();
+        window.__liveTimeInterval = setInterval(updateTime, 60000);
+      }, msUntilNextMinute);
+    }
+  }
 
   // Single delegated handler — survives re-renders
   weatherResult.onclick = (e) => {

@@ -110,7 +110,8 @@ def fetch_from_wttr(city):
             "currentTime": datetime.now().strftime("%Y-%m-%dT%H:%M"),
             "hourly": hourly_data,
             "forecast": forecast_data,
-            "provider": "wttr.in"
+            "provider": "wttr.in",
+            "timezone": "UTC"
         }
     except Exception as e:
         print(f"[RESIILIENCE] Fallback failed: {e}")
@@ -298,7 +299,8 @@ def get_weather():
             "currentTime": weather_data['current']['time'],
             "aqi": aqi_val,
             "hourly": hourly_data,
-            "forecast": forecast_data
+            "forecast": forecast_data,
+            "timezone": weather_data.get('timezone', 'UTC')
         }
         return jsonify(formatted_response)
     except Exception as e:
