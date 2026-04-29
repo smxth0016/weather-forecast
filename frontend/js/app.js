@@ -1,7 +1,7 @@
 import { fetchWeather } from "./weatherService.js";
 import { predictWeather } from "./predictorService.js";
 import {
-  renderWeather, renderInsights, showError, showSkeleton,
+  renderWeather, renderInsights, showError, showSkeleton, showInsightsSkeleton,
   resolveCondition, resolvePillClass, stripeClass,
   tempStr, drawSparkline, updateWeatherScene, spawnParticlesInNode
 } from "./ui.js";
@@ -64,9 +64,14 @@ async function fetchAndRenderInsights() {
     if (resp.ok) {
       const insightsData = await resp.json();
       renderInsights(insightsData);
+    } else {
+      const panel = document.getElementById("insightsPanel");
+      if (panel) panel.style.display = "none";
     }
   } catch (err) {
     console.warn("Failed to fetch insights:", err);
+    const panel = document.getElementById("insightsPanel");
+    if (panel) panel.style.display = "none";
   }
 }
 
@@ -76,6 +81,7 @@ document.querySelectorAll(".cat-tab").forEach(tab => {
     document.querySelectorAll(".cat-tab").forEach(t => t.classList.remove("active"));
     tab.classList.add("active");
     STATE.currentCategory = tab.dataset.category;
+    showInsightsSkeleton();
     fetchAndRenderInsights();
   });
 });

@@ -254,6 +254,40 @@ function startLightning() {
 }
 
 // ─── SKELETON — inline inside weather panel ───────────────────
+export function showInsightsSkeleton() {
+  const insightsPanel = document.getElementById("insightsPanel");
+  if (insightsPanel) {
+    insightsPanel.classList.remove("hidden");
+    insightsPanel.style.display = "block";
+    insightsPanel.innerHTML = `
+      <div class="wp-skeleton" style="padding: 0;">
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 15px; margin-bottom: 20px;">
+           <div class="wp-skel-line skel-pill" style="width: 60%; margin: 0;"></div>
+           <div class="wp-skel-line skel-pill" style="width: 25%; margin: 0;"></div>
+        </div>
+        <div style="display: flex; gap: 12px; margin-bottom: 20px; align-items: center;">
+           <div class="wp-skel-line" style="width: 40px; height: 40px; border-radius: 10px; margin: 0;"></div>
+           <div class="wp-skel-line skel-city" style="width: 50%; margin: 0;"></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+           <div style="display: flex; gap: 14px; align-items: center;">
+             <div class="wp-skel-line" style="width: 28px; height: 28px; border-radius: 6px; margin: 0;"></div>
+             <div class="wp-skel-line" style="flex: 1; height: 16px; margin: 0;"></div>
+           </div>
+           <div style="display: flex; gap: 14px; align-items: center;">
+             <div class="wp-skel-line" style="width: 28px; height: 28px; border-radius: 6px; margin: 0;"></div>
+             <div class="wp-skel-line" style="flex: 1; height: 16px; margin: 0;"></div>
+           </div>
+           <div style="display: flex; gap: 14px; align-items: center;">
+             <div class="wp-skel-line" style="width: 28px; height: 28px; border-radius: 6px; margin: 0;"></div>
+             <div class="wp-skel-line" style="flex: 1; height: 16px; margin: 0;"></div>
+           </div>
+        </div>
+      </div>
+    `;
+  }
+}
+
 export function showSkeleton() {
   dashEmptyMain.classList.add("hidden");
   dashEmptyMain.style.display = "none";
@@ -276,6 +310,8 @@ export function showSkeleton() {
       <div class="wp-skel-line skel-chart"></div>
     </div>
   `;
+
+  showInsightsSkeleton();
 }
 
 // ─── SPARKLINE ───────────────────────────────────────────────
@@ -645,19 +681,11 @@ export function renderWeather(data, useFahrenheit = false, bookmarked = false) {
 // ─── RENDER SMART INSIGHTS ───────────────────────────────────
 export function renderInsights(insightsData) {
   const panel = document.getElementById("insightsPanel");
-  const summaryEl = document.getElementById("insightsSummary");
-  const categoryNameEl = document.getElementById("insightsCategoryName");
-  const iconEl = document.getElementById("insightsIcon");
-  const listEl = document.getElementById("insightsList");
-
   if (!panel || !insightsData) return;
 
   panel.style.display = "block";
   panel.classList.remove("hidden");
 
-  summaryEl.textContent = insightsData.summary;
-  categoryNameEl.textContent = insightsData.category;
-  
   // Set category icon
   const icons = {
     General: "🏠",
@@ -667,19 +695,33 @@ export function renderInsights(insightsData) {
     Picnic: "🧺",
     Sports: "🏃"
   };
-  iconEl.textContent = icons[insightsData.category] || "✨";
+  const icon = icons[insightsData.category] || "✨";
 
-  listEl.innerHTML = "";
+  let listHtml = "";
   insightsData.insights.forEach((insight, idx) => {
-    const li = document.createElement("li");
-    li.className = "insight-item";
-    li.style.animationDelay = `${idx * 0.1}s`;
-    li.innerHTML = `
-      <div class="insight-icon-wrap">${insight.icon}</div>
-      <span>${insight.text}</span>
+    listHtml += `
+      <li class="insight-item" style="animation-delay: ${idx * 0.1}s">
+        <div class="insight-icon-wrap">${insight.icon}</div>
+        <span>${escapeHTML(insight.text)}</span>
+      </li>
     `;
-    listEl.appendChild(li);
   });
+
+  panel.innerHTML = `
+    <div class="insights-header">
+       <p class="insights-summary">${escapeHTML(insightsData.summary)}</p>
+       <span class="confidence-badge">Confidence: High</span>
+    </div>
+    <div class="insights-content">
+       <div class="insights-title-row">
+          <span class="category-icon-large">${icon}</span>
+          <h3>Smart Insights for <span>${escapeHTML(insightsData.category)}</span></h3>
+       </div>
+       <ul class="insights-list">
+          ${listHtml}
+       </ul>
+    </div>
+  `;
 }
 
 // ─── SHOW ERROR ──────────────────────────────────────────────
