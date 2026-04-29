@@ -274,8 +274,9 @@ body::after {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 15px;
   margin-bottom: 25px;
+  width: 100%;
 }
 
 .search-meta-row {
@@ -350,7 +351,7 @@ body::after {
   background: rgba(3, 105, 161, 0.08);
 }
 
-/* Reset panel widths for side-by-side */
+/* Dashboard Panels */
 .weather-panel {
   min-width: 0;
   width: 100%;
@@ -923,16 +924,37 @@ input:focus {
 }
 
 /* BUTTON */
+/* BUTTON - Refined Base */
 button {
   padding: 12px 20px;
   border-radius: 12px;
   border: none;
-  background: var(--btn-bg);
-  color: #ffffff;
+  background: transparent;
+  color: var(--text-main);
   font-size: 15px;
   cursor: pointer;
-  box-shadow: var(--btn-shadow);
   transition: all 0.3s ease;
+}
+
+#themeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.2px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-dim);
+  backdrop-filter: blur(16px);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.day-theme #themeToggle {
+  background: rgba(255, 255, 255, 0.45);
+  border-color: rgba(3, 105, 161, 0.25);
+  color: #0369a1;
 }
 
 button:hover {
@@ -1971,35 +1993,40 @@ button:active {
    DASHBOARD Ã¢â‚¬â€ two-column layout
    Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 
+/* ── DASHBOARD LAYOUT (Clean Solution) ── */
 .dashboard {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 16px;
-  max-width: 1200px;
-  margin: 15px auto 0; /* Reduced dashboard top margin */
-  align-items: start;
-  text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 30px auto 0;
+  padding: 0 20px;
 }
 
-/* ── LEFT: MAIN WEATHER PANEL ── */
 .dash-main {
-  min-height: 320px;
-  position: relative;
+  flex: 1;
   display: flex;
-  flex-direction: row-reverse; /* Insights on left, Weather on right */
-  gap: 24px;
-  align-items: flex-start;
+  flex-direction: row-reverse; /* Insights Left, Weather Right */
+  gap: 20px;
+  min-width: 0;
+}
+
+.dash-sidebar {
+  width: 380px;
+  flex-shrink: 0;
 }
 
 .weather-panel {
-  flex: 1.4; /* Weather card priority */
+  flex: 1.4;
   min-width: 0;
 }
 
 .insights-panel {
   flex: 1;
   min-width: 0;
-  margin-top: 0 !important;
 }
 
 /* Empty state before search */
@@ -4480,28 +4507,8 @@ body.weather-bg-rainy .cloud {
   z-index: 10;
 }
 
-@media (min-width: 992px) {
-  .dashboard {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 40px;
-    margin-top: 40px;
-    padding: 0 30px;
-    animation: fadeIn 0.8s ease-out;
-  }
-  
-  .dash-main {
-    flex: 0 0 760px;
-    text-align: left;
-  }
-  
-  .dash-sidebar {
-    flex: 0 0 380px;
-    text-align: left;
-    margin-top: 30px;
-  }
-}
+
+/* Overrides removed for consolidation */
 
 /* ── MOBILE RESPONSIVENESS & DYNAMIC ISLAND ── */
 
@@ -4575,23 +4582,20 @@ body.weather-bg-rainy .cloud {
     margin-top: 100px;
   }
   
+
+@media (max-width: 991px) {
   .dashboard {
-    display: flex;
     flex-direction: column;
-    gap: 30px;
-    padding: 0 20px;
-    margin-top: 20px;
+    align-items: center;
   }
-  
   .dash-main {
-    order: 1;
+    flex-direction: column;
     width: 100%;
   }
-  
   .dash-sidebar {
-    order: 2;
     width: 100%;
   }
+}
 }
 
 @media (max-width: 480px) {
