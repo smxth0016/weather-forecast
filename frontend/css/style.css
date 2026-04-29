@@ -937,26 +937,6 @@ button {
   transition: all 0.3s ease;
 }
 
-#themeToggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 46px;
-  height: 46px;
-  padding: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1.2px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-dim);
-  backdrop-filter: blur(16px);
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.day-theme #themeToggle {
-  background: rgba(255, 255, 255, 0.45);
-  border-color: rgba(3, 105, 161, 0.25);
-  color: #0369a1;
-}
 
 button:hover {
   transform: translateY(-2px);
