@@ -124,7 +124,8 @@ body {
   min-height: 100vh;
   color: var(--text-main);
   background: transparent; /* Reveal the Vanta.js WebGL canvas */
-  overflow: hidden; 
+  overflow-y: auto;
+  overflow-x: hidden; 
   position: relative;
   transition: background 1.5s ease, color 0.5s ease;
 }
