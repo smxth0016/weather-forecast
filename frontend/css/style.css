@@ -423,10 +423,14 @@ body::after {
   width: 40px;
   height: 40px;
   background: var(--btn-bg);
-  color: white;
-  border-radius: 10px;
-  font-size: 20px;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+}
+
+.category-icon-large svg {
+  width: 24px;
+  height: 24px;
 }
 
 .insights-title-row h3 {
@@ -462,15 +466,22 @@ body::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #7dd3fc;
+  flex-shrink: 0;
+}
+
+.insight-icon-wrap svg {
+  width: 18px;
+  height: 18px;
 }
 
 .day-theme .insight-icon-wrap {
-  background: rgba(3, 105, 161, 0.05);
+  background: rgba(3, 105, 161, 0.08);
+  color: #0369a1;
 }
 
 /* Mobile Responsive Fix */
@@ -3075,6 +3086,11 @@ body.day-theme .bm-card.condition-foggy {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   box-shadow: var(--btn-shadow);
+  color: #ffffff; /* Contrast for the label and icon */
+}
+
+.day-theme .predict-btn {
+  color: #ffffff !important;
 }
 
 .predict-btn:hover {
@@ -3185,6 +3201,11 @@ body.day-theme .bm-card.condition-foggy {
 .predictor-inputs button {
   background: var(--btn-bg);
   box-shadow: var(--btn-shadow);
+  color: #ffffff; /* Ensure white text on dark gradient background */
+}
+
+.day-theme .predictor-inputs button {
+  color: #ffffff !important;
 }
 
 /* Predictor Results */
