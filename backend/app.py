@@ -125,7 +125,7 @@ def fetch_aqi(lat, lon):
         data = resp.json()
         return data.get('current', {}).get('us_aqi')
     except Exception as e:
-        print(f"⚠️ AQI Fetch failed: {e}")
+        print(f"[AQI] Fetch failed: {e}")
         return None
 
 def map_weather_code_to_condition(code):
@@ -173,25 +173,25 @@ def get_weather():
         latitude = lat_f
         longitude = lon_f
         name = city if city else f"Location ({latitude:.2f}, {longitude:.2f})"
-        print(f"📍 Using exact coordinates: {latitude}, {longitude}")
+        print(f"[GEO] Using exact coordinates: {latitude}, {longitude}")
     else:
-        print(f"🔍 No valid coordinates provided. Geocoding city name instead: \"{city}\"")
+        print(f"[GEO] No valid coordinates provided. Geocoding city name instead: \"{city}\"")
         try:
             geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={urllib.parse.quote(city)}&count=1"
             geo_response = requests.get(geo_url, timeout=10)
             geo_response.raise_for_status()
             geo_data = geo_response.json()
             if not geo_data.get('results'):
-                print(f"⚠️ City not found in geocoding: \"{city}\"")
+                print(f"[GEO] City not found in geocoding: \"{city}\"")
                 return jsonify({"error": "City not found"}), 404
             
             result = geo_data['results'][0]
             latitude = result['latitude']
             longitude = result['longitude']
             name = result['name']
-            print(f"✅ Geocoded \"{city}\" to {latitude}, {longitude}")
+            print(f"[GEO] Geocoded \"{city}\" to {latitude}, {longitude}")
         except Exception as e:
-            print(f"❌ Geocoding failed: {e}. Trying immediate fallback to alternative provider...")
+            print(f"[GEO] Geocoding failed: {e}. Trying immediate fallback to alternative provider...")
             resilient_data = fetch_from_wttr(city)
             if resilient_data:
                 return jsonify(resilient_data)
@@ -238,7 +238,7 @@ def get_weather():
         weather_data = fetch_forecast(latitude, longitude)
         aqi_val = fetch_aqi(latitude, longitude)
     except Exception as err:
-        print(f"⚠️ Primary source failed, trying wttr.in...")
+        print(f"[BACKUP] Primary source failed, trying wttr.in...")
         resilient_data = fetch_from_wttr(city)
         if resilient_data:
             return jsonify(resilient_data)

@@ -638,6 +638,7 @@ export function renderWeather(data, useFahrenheit = false, bookmarked = false) {
     setTimeout(() => {
       const needle = document.getElementById('compassNeedle');
       if (needle) needle.style.transform = `rotate(${data.windDirDeg || 0}deg)`;
+    }, 100);
   });
 }
 
