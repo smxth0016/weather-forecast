@@ -179,7 +179,7 @@ def get_weather():
         print(f"[GEO] No valid coordinates provided. Geocoding city name instead: \"{city}\"")
         try:
             geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={urllib.parse.quote(city)}&count=1"
-            geo_response = requests.get(geo_url, timeout=10)
+            geo_response = requests.get(geo_url, timeout=4)
             geo_response.raise_for_status()
             geo_data = geo_response.json()
             if not geo_data.get('results'):
@@ -217,7 +217,7 @@ def get_weather():
         
         for attempt in range(2):
             try:
-                resp = requests.get(url, timeout=6)
+                resp = requests.get(url, timeout=4)
                 if resp.status_code == 200:
                     return resp.json()
                 elif resp.status_code == 429:

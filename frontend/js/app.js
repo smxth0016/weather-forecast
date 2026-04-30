@@ -27,6 +27,7 @@ const STATE = {
   history:       [],
   sortMode:      "recent",
   currentCategory: "General",
+  insightsCache:   {},
 };
 
 // ─── PERSIST ─────────────────────────────────────────────────
@@ -51,18 +52,42 @@ function renderAll() {
 async function fetchAndRenderInsights() {
   if (!STATE.lastData) return;
   
+  const cacheKey = `${STATE.lastData.city}_${STATE.currentCategory}_${STATE.lastData.temperature}`;
+  if (STATE.insightsCache[cacheKey]) {
+    renderInsights(STATE.insightsCache[cacheKey]);
+    return;
+  }
+  
   try {
+    const optimized = {
+      temperature: STATE.lastData.temperature,
+      feelsLike:   STATE.lastData.feelsLike,
+      humidity:    STATE.lastData.humidity,
+      condition:   STATE.lastData.condition,
+      windSpeed:   STATE.lastData.windSpeed,
+      uvIndex:     STATE.lastData.uvIndex,
+      aqi:         STATE.lastData.aqi,
+      visibility:  STATE.lastData.visibility,
+      pressure:    STATE.lastData.pressure,
+      sunrise:     STATE.lastData.sunrise,
+      sunset:      STATE.lastData.sunset,
+      low:         STATE.lastData.low,
+      isDay:       STATE.lastData.isDay,
+      currentTime: STATE.lastData.currentTime
+    };
+
     const resp = await fetch("/api/insights", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        weather: STATE.lastData,
+        weather: optimized,
         category: STATE.currentCategory
       })
     });
     
     if (resp.ok) {
       const insightsData = await resp.json();
+      STATE.insightsCache[cacheKey] = insightsData;
       renderInsights(insightsData);
     } else {
       const panel = document.getElementById("insightsPanel");

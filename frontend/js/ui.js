@@ -758,7 +758,7 @@ export function renderInsights(insightsData) {
   insightsData.insights.forEach((insight, idx) => {
     const iconSvg = ICONS[insight.icon] || insight.icon;
     listHtml += `
-      <li class="insight-item" style="animation-delay: ${idx * 0.1}s">
+      <li class="insight-item" style="animation-delay: ${idx * 0.05}s">
         <div class="insight-icon-wrap">${iconSvg}</div>
         <span>${escapeHTML(insight.text)}</span>
       </li>
@@ -768,7 +768,7 @@ export function renderInsights(insightsData) {
   panel.innerHTML = `
     <div class="insights-header">
        <p class="insights-summary">${escapeHTML(insightsData.summary)}</p>
-       <span class="confidence-badge">Confidence: High</span>
+       <span class="confidence-badge">Confidence: ${escapeHTML(insightsData.confidence)}</span>
     </div>
     <div class="insights-content">
        <div class="insights-title-row">
