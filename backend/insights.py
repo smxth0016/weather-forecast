@@ -109,9 +109,12 @@ def generate_insights(weather_data, category="General"):
         elif pressure < 1005:
              insights.append({"icon": "COFFEE", "text": "Low pressure; prioritize breaks to maintain steady energy."})
              
-        if len(insights) < 3:
+        if len(insights) < 3 and not is_bad_weather:
             insights.append({"icon": "BACKPACK", "text": "Consistent conditions; good day for walking to campus."})
             insights.append({"icon": "BOOK", "text": "Perfect weather for an extended library study session."})
+        elif len(insights) < 3:
+            insights.append({"icon": "HOME", "text": "Plan for indoor transit and prioritize staying dry between classes."})
+            insights.append({"icon": "SHIELD", "text": "Monitor campus portals for weather-related schedule shifts."})
 
     # --- CATEGORY: PICNIC ---
     elif category == "Picnic":
@@ -150,9 +153,13 @@ def generate_insights(weather_data, category="General"):
         elif is_humid:
             insights.append({"icon": "SPORTS", "text": "High humidity; surfaces may feel tacky. Good for ball control."})
             
-        if len(insights) < 3:
+        if len(insights) < 3 and not (is_bad_weather or is_windy or is_hot or (aqi and aqi > 100)):
             insights.append({"icon": "SPORTS", "text": "Peak performance weather! Excellent for all outdoor sports."})
             insights.append({"icon": "RUN", "text": "Stable temperatures; ideal for long-distance training."})
+        elif len(insights) < 3:
+            # Safer fallbacks for non-optimal conditions
+            insights.append({"icon": "APPAREL", "text": "Check your gear and layered clothing before starting your session."})
+            insights.append({"icon": "SHIELD", "text": "Maintain proper form and listen to your body in these conditions."})
 
     # --- CATEGORY: GENERAL ---
     else: 
