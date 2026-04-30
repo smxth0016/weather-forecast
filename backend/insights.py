@@ -34,8 +34,10 @@ def generate_insights(weather_data, category="General"):
     is_cold = temp < 12
     is_sunny = any(w in condition for w in ['clear', 'sunny'])
     is_windy = wind_speed > 18
+    is_calm = wind_speed < 8
     is_dry = humidity < 35
     is_humid = humidity > 70
+    is_muggy = is_humid and temp > 24
     
     insights = []
 
@@ -49,72 +51,62 @@ def generate_insights(weather_data, category="General"):
             
         if visibility < 2:
             insights.append({"icon": "VISIBILITY", "text": "Low visibility; use extra caution if navigating streets."})
-        elif visibility > 12 and is_sunny:
-            insights.append({"icon": "VISIBILITY", "text": "Crystal clear air; great for visiting high-altitude viewpoints."})
+        elif visibility > 15:
+            insights.append({"icon": "VISIBILITY", "text": "Exceptional clarity; perfect for high-altitude landmarks."})
+        elif visibility > 10 and is_sunny:
+            insights.append({"icon": "VISIBILITY", "text": "Crystal clear air; great for visiting viewpoints."})
 
         if 5 <= hour <= 10:
             insights.append({"icon": "COFFEE", "text": "Early morning; usually the best time for crowd-free sightseeing."})
-        elif 17 <= hour <= 19:
+        elif 12 <= hour <= 15 and is_hot:
+            insights.append({"icon": "HOME", "text": "Midday heat peak; consider visiting indoor museums or galleries."})
+        elif 16 <= hour <= 19 and is_day:
             insights.append({"icon": "CAMERA", "text": f"Golden hour approaching; perfect for photography at {sunset}."})
+        elif 5 <= hour <= 7 and is_day:
+            insights.append({"icon": "CAMERA", "text": f"Sunrise approaching at {sunrise}; ideal for cityscape captures."})
+        elif hour >= 21 or hour <= 4:
+            insights.append({"icon": "TRANSIT", "text": "Night hours; plan for pre-booked transport as public options may be sparse."})
             
-        if is_windy:
-            insights.append({"icon": "WIND", "text": "Moderate winds; secure any loose items or light luggage."})
-        
-        if len(insights) < 3 and not is_bad_weather:
-            insights.append({"icon": "TRANSIT", "text": "Stable weather; transit systems should run on schedule."})
-            insights.append({"icon": "MAP", "text": "Favorable conditions for exploring both indoor and outdoor landmarks."})
+        if is_windy and is_day:
+            insights.append({"icon": "WIND", "text": "Daytime breezes; secure light hats or maps while exploring."})
+        elif is_calm:
+            insights.append({"icon": "WIND", "text": "Calm conditions; ideal for scenic boat tours or ferry crossings."})
 
     # --- CATEGORY: FARMER ---
     elif category == "Farmer":
         if is_snow:
             insights.append({"icon": "SNOW", "text": "Snow cover; protect sensitive livestock and crops."})
-            insights.append({"icon": "TRACTOR", "text": "Halt heavy machinery to prevent soil compaction."})
         elif is_rain:
             insights.append({"icon": "DROP", "text": "Natural irrigation today; pause all scheduled watering."})
-        elif low_temp < 2:
-            insights.append({"icon": "THERMOMETER", "text": "Frost risk; cover young seedlings or move them indoors."})
-            
-        if is_dry and is_windy:
-            insights.append({"icon": "WIND", "text": "High evapotranspiration risk; monitor soil moisture closely."})
-        elif wind_speed < 10 and not is_bad_weather:
-            insights.append({"icon": "TRACTOR", "text": "Low wind; ideal window for spraying or fertilizing."})
-            
-        if is_humid and temp > 20:
-            insights.append({"icon": "THERMOMETER", "text": "Warm and humid; monitor crops for signs of fungal growth."})
             
         if 5 <= hour <= 9:
             insights.append({"icon": "PLANT", "text": "High morning dew; check field conditions before operations."})
-        
-        if len(insights) < 3:
-            insights.append({"icon": "TOOLS", "text": "Stable conditions; good day for tool and equipment maintenance."})
-            insights.append({"icon": "EDIT", "text": "Ideal time for administrative tasks and seasonal planning."})
+        elif 11 <= hour <= 16 and is_hot:
+            insights.append({"icon": "SUN", "text": "Peak solar intensity; prioritize hydration and take shaded breaks."})
+        elif 18 <= hour <= 21:
+            insights.append({"icon": "HOME", "text": "Dusk approaching; ensure all livestock and equipment are secured."})
+            
+        if is_dry and is_windy and is_day:
+            insights.append({"icon": "WIND", "text": "High daytime evapotranspiration; monitor soil moisture closely."})
+            
+        if pressure < 1000:
+            insights.append({"icon": "PRESSURE", "text": "Falling barometric pressure; approaching weather shifts likely."})
+        elif pressure > 1025:
+            insights.append({"icon": "PRESSURE", "text": "High pressure stability; expect consistently calm field conditions."})
 
     # --- CATEGORY: STUDENT ---
     elif category == "Student":
-        if is_snow:
-            insights.append({"icon": "SNOW", "text": "Snowy day; check campus portals for closure alerts."})
-        elif is_rain:
-            insights.append({"icon": "RAIN", "text": "Rainy day; allow extra time for commuting to campus."})
-            
-        if is_humid:
-            insights.append({"icon": "BACKPACK", "text": "High humidity; use protective sleeves for laptops."})
-            
         if 8 <= hour <= 12 and is_sunny:
-            insights.append({"icon": "BOOK", "text": "Optimal natural light for studying near windows."})
-        elif hour >= 21:
-            insights.append({"icon": "MOON", "text": "Quiet late-night hours; great for deep focus work."})
+            insights.append({"icon": "BOOK", "text": "Optimal natural light for studying near library windows."})
+        elif 12 <= hour <= 14:
+            insights.append({"icon": "COFFEE", "text": "Lunchtime peak; campus dining areas will be at maximum capacity."})
+        elif 17 <= hour <= 20:
+            insights.append({"icon": "HOME", "text": "Evening transition; check your commute status before leaving campus."})
+        elif 21 <= hour or hour <= 3:
+            insights.append({"icon": "MOON", "text": "Quiet late-night hours; ideal for deep focus and heavy coding."})
             
-        if pressure > 1020:
-             insights.append({"icon": "BRAIN", "text": "High pressure; often associated with improved mental focus."})
-        elif pressure < 1005:
-             insights.append({"icon": "COFFEE", "text": "Low pressure; prioritize breaks to maintain steady energy."})
-             
-        if len(insights) < 3 and not is_bad_weather:
-            insights.append({"icon": "BACKPACK", "text": "Consistent conditions; good day for walking to campus."})
-            insights.append({"icon": "BOOK", "text": "Perfect weather for an extended library study session."})
-        elif len(insights) < 3:
-            insights.append({"icon": "HOME", "text": "Plan for indoor transit and prioritize staying dry between classes."})
-            insights.append({"icon": "SHIELD", "text": "Monitor campus portals for weather-related schedule shifts."})
+        if aqi and aqi < 50 and 7 <= hour <= 18:
+            insights.append({"icon": "SPARKLES", "text": "Fresh air today; consider an outdoor study session on the quad."})
 
     # --- CATEGORY: PICNIC ---
     elif category == "Picnic":
@@ -122,72 +114,37 @@ def generate_insights(weather_data, category="General"):
             insights.append({"icon": "HOME", "text": "Indoor picnic recommended; great day for a cozy home lunch."})
         else:
             if uv_index > 6 and 11 <= hour <= 15:
-                insights.append({"icon": "SUN", "text": "Peak UV; prioritize shaded spots under heavy canopy."})
-            elif 17 <= hour <= 20:
-                insights.append({"icon": "SUNSET", "text": "Cooling evening air; perfect for a sunset outing."})
+                insights.append({"icon": "SUN", "text": "Peak UV window; prioritize shaded spots under heavy canopy."})
+            elif 16 <= hour <= 19:
+                insights.append({"icon": "SUNSET", "text": f"Approaching sunset ({sunset}); perfect lighting for an outdoor dinner."})
+            elif 6 <= hour <= 9:
+                insights.append({"icon": "SUN", "text": f"Morning dew drying fast; great for an early park breakfast."})
                 
-            if is_windy:
-                insights.append({"icon": "WIND", "text": "Windy day; secure your food containers and light items."})
-            
-            if is_dry:
-                insights.append({"icon": "WIND", "text": "Low humidity; mosquito activity should be minimal today."})
-                
-            if len(insights) < 3:
-                insights.append({"icon": "PICNIC", "text": "Excellent weather for an outdoor picnic setup."})
-                insights.append({"icon": "THERMOMETER", "text": "Stable temps; favorable for keeping food fresh outdoors."})
+            if is_windy and is_day:
+                insights.append({"icon": "WIND", "text": "Daytime winds; secure your food containers and light items."})
 
     # --- CATEGORY: SPORTS ---
     elif category == "Sports":
-        if aqi and aqi > 100:
-            insights.append({"icon": "ALERT", "text": "Poor air quality; move your training session indoors."})
-        elif is_rain:
-            insights.append({"icon": "RAIN", "text": "Slippery surfaces; best to move activities to a gym."})
-            
         if is_hot and 11 <= hour <= 16:
-            insights.append({"icon": "DRINK", "text": "Midday heat; prioritize electrolytes and frequent breaks."})
+            insights.append({"icon": "DRINK", "text": "Midday heat peak; prioritize electrolytes and double your water intake."})
         elif 5 <= hour <= 8:
-            insights.append({"icon": "RUN", "text": "Early morning cool; the optimal time for high-intensity cardio."})
-            
-        if is_windy:
-            insights.append({"icon": "WIND", "text": "Strong winds; focus on lower-impact activities or indoor play."})
-        elif is_humid:
-            insights.append({"icon": "SPORTS", "text": "High humidity; surfaces may feel tacky. Good for ball control."})
-            
-        if len(insights) < 3 and not (is_bad_weather or is_windy or is_hot or (aqi and aqi > 100)):
-            insights.append({"icon": "SPORTS", "text": "Peak performance weather! Excellent for all outdoor sports."})
-            insights.append({"icon": "RUN", "text": "Stable temperatures; ideal for long-distance training."})
-        elif len(insights) < 3:
-            # Safer fallbacks for non-optimal conditions
-            insights.append({"icon": "APPAREL", "text": "Check your gear and layered clothing before starting your session."})
-            insights.append({"icon": "SHIELD", "text": "Maintain proper form and listen to your body in these conditions."})
+            insights.append({"icon": "RUN", "text": "Morning cool-down; the optimal window for high-intensity cardio."})
+        elif 16 <= hour <= 18 and is_sunny:
+            insights.append({"icon": "SUN", "text": "Late afternoon sun glare; polarized eyewear is essential for play."})
+        elif hour >= 20 or hour <= 4:
+            insights.append({"icon": "VISIBILITY", "text": "Night session? Ensure you are using well-lit tracks or gym facilities."})
 
     # --- CATEGORY: GENERAL ---
     else: 
-        if is_snow:
-            insights.append({"icon": "SNOW", "text": "Bundle up! Heavy winter layers are essential today."})
-        elif is_rain:
-            insights.append({"icon": "RAIN", "text": "Don't forget your umbrella and waterproof footwear."})
-        elif is_hot:
-            insights.append({"icon": "SUN", "text": "Stay hydrated and avoid prolonged sun exposure."})
-            
         if 22 <= hour or hour <= 4:
-            insights.append({"icon": "SLEEP", "text": "Cool night air; favorable for deep and restful sleep."})
-        elif 6 <= hour <= 9:
-            insights.append({"icon": "SUNSET", "text": "Fresh morning air; great for early chores or a quick walk."})
+            insights.append({"icon": "SLEEP", "text": "Quiet night hours; favorable conditions for restful sleep."})
+        elif 6 <= hour <= 10:
+            insights.append({"icon": "SUNSET", "text": "Fresh morning air; ideal for outdoor errands or a quick walk."})
+        elif 12 <= hour <= 16 and is_sunny:
+            insights.append({"icon": "DRINK", "text": "Sunny afternoon; remember to stay hydrated during outdoor tasks."})
             
-        if is_dry and wind_speed > 10 and not is_bad_weather:
-            insights.append({"icon": "APPAREL", "text": "Dry and breezy; perfect conditions for drying laundry."})
-        elif is_humid:
-            insights.append({"icon": "HOME", "text": "High humidity; keep windows closed for indoor comfort."})
-            
-        if uv_index > 5 and is_day:
-            insights.append({"icon": "VISIBILITY", "text": "Moderate UV levels; sunglasses are recommended outdoors."})
-            
-        if len(insights) < 3:
-            if is_sunny:
-                insights.append({"icon": "SPARKLES", "text": "Excellent visibility and natural light across the city."})
-            if 40 <= humidity <= 60:
-                insights.append({"icon": "DROP", "text": "Optimal humidity levels for indoor and outdoor comfort."})
+        if is_dry and wind_speed > 10 and 8 <= hour <= 17:
+            insights.append({"icon": "APPAREL", "text": "Dry and breezy; perfect daytime conditions for drying laundry."})
 
     # --- HUMIDITY / WIND CHILL (General Only) ---
     if category == "General":
